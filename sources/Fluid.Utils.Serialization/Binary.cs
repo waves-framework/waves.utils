@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Fluid.Core.Utils.Serialization
+namespace Fluid.Utils.Serialization
 {
     public static class Binary
     {

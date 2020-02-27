@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 
-namespace Fluid.Core.Utils.Serialization
+namespace Fluid.Utils.Serialization
 {
     public static class Xml
     {

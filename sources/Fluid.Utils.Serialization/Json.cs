@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace Fluid.Core.Utils.Serialization
+namespace Fluid.Utils.Serialization
 {
     public static class Json 
     {
