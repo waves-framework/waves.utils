@@ -3,15 +3,18 @@ using System.Xml.Serialization;
 
 namespace Fluid.Utils.Serialization
 {
+    /// <summary>
+    /// XML Serialization.
+    /// </summary>
     public static class Xml
     {
         /// <summary>
-        ///     Записывает класс в файл.
+        ///     Writes object to XML file.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <param name="objectToWrite"></param>
-        /// <param name="append"></param>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="filePath">Path.</param>
+        /// <param name="objectToWrite">Object.</param>
+        /// <param name="append">Append.</param>
         public static void WriteToFile<T>(string filePath, T objectToWrite, bool append = false) where T : new()
         {
             TextWriter writer = null;
@@ -28,11 +31,11 @@ namespace Fluid.Utils.Serialization
         }
 
         /// <summary>
-        ///     Читает класс из файла.
+        ///     Reads object from XML file.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="filePath">Path.</param>
+        /// <returns>Object.</returns>
         public static T ReadFile<T>(string filePath) where T : new()
         {
             TextReader reader = null;

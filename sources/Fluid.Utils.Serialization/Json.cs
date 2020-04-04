@@ -3,15 +3,18 @@ using Newtonsoft.Json;
 
 namespace Fluid.Utils.Serialization
 {
+    /// <summary>
+    /// JSON serialization.
+    /// </summary>
     public static class Json 
     {
         /// <summary>
-        ///     Записывает класс в файл.
+        ///        Writes object to JSON file.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <param name="objectToWrite"></param>
-        /// <param name="append"></param>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="filePath">Path.</param>
+        /// <param name="objectToWrite">Object.</param>
+        /// <param name="append">Append.</param>
         public static void WriteToFile<T>(string filePath, T objectToWrite, bool append = false)
         {
             var json = JsonConvert.SerializeObject(
@@ -19,18 +22,18 @@ namespace Fluid.Utils.Serialization
                 new JsonSerializerSettings()
                 {
                     TypeNameHandling = TypeNameHandling.Auto,
-                    Formatting = Formatting.Indented
+                    Formatting = Formatting.Indented,
                 });
 
             File.WriteAllText(filePath, json);
         }
 
         /// <summary>
-        ///     Читает класс из файла.
+        ///     Reads object from JSON file.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Type.</typeparam>
+        /// <param name="filePath">Path.</param>
+        /// <returns>Object.</returns>
         public static T ReadFile<T>(string filePath)
         {
             var json = File.ReadAllText(filePath);
