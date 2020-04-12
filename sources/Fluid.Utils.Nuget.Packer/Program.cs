@@ -256,13 +256,31 @@ namespace Fluid.Utils.Nuget.Packer
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
 
-                    var process = System.Diagnostics.Process.Start(CmdExePath, command);
-                    if (process != null)
+                    var process = new System.Diagnostics.Process
                     {
-                        Environment.ExitCode = process.ExitCode;
-                    }
+                        StartInfo = {FileName = CmdExePath, Arguments = command}
+                    };
 
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
+                    //Start the process
+                    process.Start();
+
+                    //Get program output
+                    var output = process.StandardOutput.ReadToEnd();
+
+                    //Wait for process to finish
+                    process.WaitForExit();
+
+                    Environment.ExitCode = process.ExitCode;
+
+                    if (Environment.ExitCode == 0)
+                    {
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
+                    }
+                    else
+                    {
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "Package not created from nuspec file (" + nuspecFileFullName + ").");
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, output);
+                    }
                 }
                 catch (Exception e)
                 {
