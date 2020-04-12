@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace Fluid.Utils.Nuget.Packer
 {
@@ -9,6 +11,8 @@ namespace Fluid.Utils.Nuget.Packer
     /// </summary>
     class Program
     {
+        private static StringBuilder _output;
+
         private const string ProgramName = "[Fluid Nuget Packer]";
 
         private const string InformationKey = "[INFORMATION]";
@@ -261,22 +265,28 @@ namespace Fluid.Utils.Nuget.Packer
                         StartInfo =
                         {
                             FileName = CmdExePath,
-                            Arguments = command
+                            Arguments = command,
+                            CreateNoWindow = true,
+                            WindowStyle = ProcessWindowStyle.Hidden,
+                            UseShellExecute = false,
+                            RedirectStandardError = true,
+                            RedirectStandardOutput = true
                         }
                     };
 
+                    _output = new StringBuilder();
                     process.OutputDataReceived += OnPackProcessOutputDataReceived;
 
-                    //Start the process
                     process.Start();
-
-                    //Wait for process to finish
+                    process.BeginOutputReadLine();
+                    process.StandardError.ReadToEnd();
                     process.WaitForExit();
 
                     Environment.ExitCode = process.ExitCode;
 
                     if (Environment.ExitCode == 0)
                     {
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, _output);
                         Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
                     }
                     else
@@ -300,6 +310,8 @@ namespace Fluid.Utils.Nuget.Packer
         /// <param name="e"></param>
         private static void OnPackProcessOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
+            _output.AppendLine(e.Data);
+
             Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, e.Data);
         }
     }
