@@ -264,8 +264,8 @@ namespace Fluid.Utils.Nuget.Packer
                     //Start the process
                     process.Start();
 
-                    //Get program output
-                    var output = process.StandardOutput.ReadToEnd();
+                    ////Get program output
+                    //var output = process.StandardOutput.ReadToEnd();
 
                     //Wait for process to finish
                     process.WaitForExit();
@@ -279,7 +279,7 @@ namespace Fluid.Utils.Nuget.Packer
                     else
                     {
                         Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "Package not created from nuspec file (" + nuspecFileFullName + ").");
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, output);
+                        //Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, output);
                     }
                 }
                 catch (Exception e)
