@@ -265,15 +265,13 @@ namespace Fluid.Utils.Nuget.Packer
                         }
                     };
 
+                    process.OutputDataReceived += OnPackProcessOutputDataReceived;
+
                     //Start the process
                     process.Start();
 
                     //Wait for process to finish
                     process.WaitForExit();
-
-                    //Get program output
-                    var output = process.StandardOutput.ReadToEnd();
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, output);
 
                     Environment.ExitCode = process.ExitCode;
 
@@ -293,6 +291,16 @@ namespace Fluid.Utils.Nuget.Packer
                     Environment.ExitCode = 200;
                 }
             }
+        }
+
+        /// <summary>
+        /// Notifies when output data received.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private static void OnPackProcessOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        {
+            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, e.Data);
         }
     }
 }
