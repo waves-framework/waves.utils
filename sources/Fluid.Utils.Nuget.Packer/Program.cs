@@ -247,15 +247,14 @@ namespace Fluid.Utils.Nuget.Packer
                     }
 
                     // creating package
-                    var command = NugetExePath + " " +
-                                  PackCommandKey + " " +
-                                  nuspecFileFullName + " " +
-                                  OutputDirectoryKey + " " +
-                                  OutputDirectory + " " +
-                                  VersionKey + " " +
-                                  Version + " " +
-                                  PropertiesKey + " " +
-                                  Properties;
+                    var command = PackCommandKey + " " +
+                                        nuspecFileFullName + " " +
+                                        OutputDirectoryKey + " " +
+                                        OutputDirectory + " " +
+                                        VersionKey + " " +
+                                        Version + " " +
+                                        PropertiesKey + " " +
+                                        Properties;
 
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
@@ -264,7 +263,7 @@ namespace Fluid.Utils.Nuget.Packer
                     {
                         StartInfo =
                         {
-                            FileName = CmdExePath,
+                            FileName = NugetExePath,
                             Arguments = command,
                             CreateNoWindow = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
