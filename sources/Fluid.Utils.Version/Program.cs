@@ -44,11 +44,19 @@ namespace Fluid.Utils.Version
                     }
 
                     File.WriteAllLines(file, lines);
-                    
+
                     if (hasChanges)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("[Fluid Version Tool] {0}: {1}", "File updated" , file);
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
                     else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("[Fluid Version Tool] {0}: {1}", "File not updated", file);
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
                 }
                 
                 Console.WriteLine("[Fluid Version Tool] {0}", "Success.");
