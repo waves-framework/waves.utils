@@ -257,7 +257,7 @@ namespace Fluid.Utils.Nuget.Packer
                                         Properties;
 
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
-                    Console.WriteLine(command);
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
 
                     var process = new System.Diagnostics.Process
                     {
@@ -285,7 +285,7 @@ namespace Fluid.Utils.Nuget.Packer
 
                     if (Environment.ExitCode == 0)
                     {
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, _output);
+                        Console.WriteLine(_output);
                         Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
                     }
                     else
