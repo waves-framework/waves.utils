@@ -287,6 +287,7 @@ namespace Fluid.Utils.Nuget.Packer
                     {
                         Console.WriteLine(_output);
                         Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "SUCCESS.");
                     }
                     else
                     {
@@ -310,8 +311,6 @@ namespace Fluid.Utils.Nuget.Packer
         private static void OnPackProcessOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             _output.AppendLine(e.Data);
-
-            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, e.Data);
         }
     }
 }
