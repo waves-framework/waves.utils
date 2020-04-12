@@ -166,7 +166,7 @@ namespace Fluid.Utils.Nuget.Packer
 
                 // version
                 Version = args[6];
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Version initialized - " + OutputDirectory);
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Version initialized - " + Version);
 
                 // properties key
                 if (!args[7].Equals(PropertiesKey))
@@ -242,10 +242,7 @@ namespace Fluid.Utils.Nuget.Packer
                         Console.WriteLine("{0} {1}: {2}", ProgramName, WarningKey, "Nuspec file wasn't changed (" + nuspecFileFullName + ")");
                     }
 
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
-
-                    //
-
+                    // creating package
                     var command = NugetExePath + " " +
                                   PackCommandKey + " " +
                                   nuspecFileFullName + " " +
@@ -256,7 +253,14 @@ namespace Fluid.Utils.Nuget.Packer
                                   PropertiesKey + " " +
                                   Properties;
 
-                    System.Diagnostics.Process.Start(CmdExePath, command);
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
+
+                    var process = System.Diagnostics.Process.Start(CmdExePath, command);
+                    if (process != null)
+                    {
+                        Environment.ExitCode = process.ExitCode;
+                    }
 
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
                 }
