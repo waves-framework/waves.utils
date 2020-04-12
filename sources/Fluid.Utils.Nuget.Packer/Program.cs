@@ -258,17 +258,22 @@ namespace Fluid.Utils.Nuget.Packer
 
                     var process = new System.Diagnostics.Process
                     {
-                        StartInfo = {FileName = CmdExePath, Arguments = command}
+                        StartInfo =
+                        {
+                            FileName = CmdExePath,
+                            Arguments = command
+                        }
                     };
 
                     //Start the process
                     process.Start();
 
-                    ////Get program output
-                    //var output = process.StandardOutput.ReadToEnd();
-
                     //Wait for process to finish
                     process.WaitForExit();
+
+                    //Get program output
+                    var output = process.StandardOutput.ReadToEnd();
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, output);
 
                     Environment.ExitCode = process.ExitCode;
 
@@ -279,7 +284,6 @@ namespace Fluid.Utils.Nuget.Packer
                     else
                     {
                         Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "Package not created from nuspec file (" + nuspecFileFullName + ").");
-                        //Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, output);
                     }
                 }
                 catch (Exception e)
