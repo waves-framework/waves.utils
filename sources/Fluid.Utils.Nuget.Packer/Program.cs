@@ -306,8 +306,8 @@ namespace Fluid.Utils.Nuget.Packer
         /// <summary>
         /// Notifies when output data received.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Arguments.</param>
         private static void OnPackProcessOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             _output.AppendLine(e.Data);
