@@ -75,6 +75,7 @@ namespace Fluid.Utils.Nuget.Packer
         static void Main(string[] args)
         {
             Initialize(args);
+            Pack();
         }
 
         /// <summary>
@@ -182,6 +183,8 @@ namespace Fluid.Utils.Nuget.Packer
             catch (Exception e)
             {
                 Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
+
+                Environment.ExitCode = 100;
             }
         }
 
@@ -241,7 +244,7 @@ namespace Fluid.Utils.Nuget.Packer
 
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
 
-                    //C:\TeamCity\buildAgent\tools\NuGet.CommandLine.5.4.0\tools\NuGet.exe pack C:\TeamCity\buildAgent\work\a7f18e0ed8272361\nuget\nuspec\Fluid.Core.Base.Enums.nuspec -OutputDirectory C:\TeamCity\buildAgent\work\a7f18e0ed8272361\bin\packages -Version 2020.1.63-alpha -Properties Configuration=Release
+                    //
 
                     var command = NugetExePath + " " +
                                   PackCommandKey + " " +
@@ -260,6 +263,8 @@ namespace Fluid.Utils.Nuget.Packer
                 catch (Exception e)
                 {
                     Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
+
+                    Environment.ExitCode = 200;
                 }
             }
         }
