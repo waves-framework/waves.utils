@@ -257,7 +257,7 @@ namespace Fluid.Utils.Nuget.Packer
                                         Properties;
 
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
+                    Console.WriteLine(command);
 
                     var process = new System.Diagnostics.Process
                     {
