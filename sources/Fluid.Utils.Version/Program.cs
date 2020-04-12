@@ -1,16 +1,21 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Fluid.Utils.Version
 {
     class Program
     {
         private const string NugetVersionKey = "{$NUGETVERSION}";
-        
+
         static void Main(string[] args)
         {
             try
             {
+                var watch = new Stopwatch();
+                watch.Start();
+
                 Console.WriteLine("[Fluid Version Tool] {0}", "Started.");
                 
                 if (args.Length != 2)
@@ -24,15 +29,33 @@ namespace Fluid.Utils.Version
                 foreach (var file in files)
                 {
                     Console.WriteLine("[Fluid Version Tool] {0}: {1}", "Updating file" , file);
-                
-                    var text = File.ReadAllText(file);
-                    text = text.Replace(NugetVersionKey, version);
-                    File.WriteAllText(file, text);
+
+                    var hasChanges = false;
+
+                    var lines = File.ReadAllLines(file);
+
+                    for (var i = 0; i < lines.Length; i++)
+                    {
+                        if (lines[i].Contains(NugetVersionKey))
+                        {
+                            lines[i] = lines[i].Replace(NugetVersionKey, version);
+                            hasChanges = true;
+                        }
+                    }
+
+                    File.WriteAllLines(file, lines);
                     
-                    Console.WriteLine("[Fluid Version Tool] {0}: {1}", "File updated" , file);
+                    if (hasChanges)
+                        Console.WriteLine("[Fluid Version Tool] {0}: {1}", "File updated" , file);
+                    else
+                        Console.WriteLine("[Fluid Version Tool] {0}: {1}", "File not updated", file);
                 }
                 
                 Console.WriteLine("[Fluid Version Tool] {0}", "Success.");
+
+                watch.Stop();
+
+                Console.WriteLine("[Fluid Version Tool] {0}", "Time ellapsed: " + watch.Elapsed.TotalSeconds + " sec.");
             }
             catch (Exception e)
             {
