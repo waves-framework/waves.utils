@@ -85,7 +85,7 @@ namespace Fluid.Utils.Nuget.Packer
         /// <summary>
         /// Initialized program.
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="args">Arguments.</param>
         private static void Initialize(string[] args)
         {
             try
