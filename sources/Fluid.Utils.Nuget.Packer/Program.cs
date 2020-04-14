@@ -142,7 +142,9 @@ namespace Fluid.Utils.Nuget.Packer
 
                     if (!Directory.Exists(WorkingNuspecPath))
                     {
-                        throw new DirectoryNotFoundException("Nuspec directory not found (" + WorkingNuspecPath + ").");
+                        Directory.CreateDirectory(WorkingNuspecPath);
+
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Nuspec directory created.");
                     }
 
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Working directory found and initialized.");
