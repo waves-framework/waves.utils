@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluid.Utils.Serialization", "..\sources\Fluid.Utils.Serialization\Fluid.Utils.Serialization.csproj", "{DA344A45-CD78-41A0-A607-6181C3C904C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluid.Utils.Nuget.Packer", "..\sources\Fluid.Utils.Nuget.Packer\Fluid.Utils.Nuget.Packer.csproj", "{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluid.Utils.Nuget.Packer", "..\sources\Fluid.Utils.Nuget.Packer\Fluid.Utils.Nuget.Packer.csproj", "{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluid.Utils.Nuget.VersionUpdater", "..\sources\Fluid.Utils.Nuget.VersionUpdater\Fluid.Utils.Nuget.VersionUpdater.csproj", "{F7784152-EFD7-4123-B9C5-BB4CD9F05731}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,18 @@ Global
 		{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}.Release|x64.Build.0 = Release|Any CPU
 		{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}.Release|x86.ActiveCfg = Release|Any CPU
 		{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}.Release|x86.Build.0 = Release|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Debug|x64.Build.0 = Debug|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Debug|x86.Build.0 = Debug|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Release|x64.ActiveCfg = Release|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Release|x64.Build.0 = Release|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Release|x86.ActiveCfg = Release|Any CPU
+		{F7784152-EFD7-4123-B9C5-BB4CD9F05731}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
