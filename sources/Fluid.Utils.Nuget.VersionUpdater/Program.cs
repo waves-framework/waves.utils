@@ -91,22 +91,33 @@ namespace Fluid.Utils.Nuget.VersionUpdater
         /// </summary>
         private static void UpdateVersions()
         {
-            var files = Directory.GetFiles(PropsDirectory);
-
-            foreach (var file in files)
+            try
             {
-                var doc = XDocument.Load(file);
+                var files = Directory.GetFiles(PropsDirectory);
 
-                var elements = doc.Elements().Elements().Where(n => n.Name.LocalName == "PropertyGroup")
-                    .Elements()
-                    .Where(e => e.Name.LocalName == "Version");
-
-                foreach (var element in elements)
+                foreach (var file in files)
                 {
-                    element.Value = Version;
+                    var doc = XDocument.Load(file);
+
+                    var elements = doc.Elements().Elements().Where(n => n.Name.LocalName == "PropertyGroup")
+                        .Elements()
+                        .Where(e => e.Name.LocalName == "Version");
+
+                    foreach (var element in elements)
+                    {
+                        element.Value = Version;
+                    }
+
+                    doc.Save(file);
                 }
 
-                doc.Save(file);
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Props versions updated successfully (" + Version + ")");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while updating props versions:\r\n" + e);
+
+                Environment.ExitCode = 100;
             }
         }
     }
