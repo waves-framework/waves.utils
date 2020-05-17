@@ -61,11 +61,6 @@ namespace Fluid.Utils.Nuget.Packer
         private static string OutputDirectory { get; set; }
 
         /// <summary>
-        /// Gets or sets .props directory.
-        /// </summary>
-        private static string PropsDirectory { get; set; }
-
-        /// <summary>
         /// Gets or sets nuget version.
         /// </summary>
         private static string Version { get; set; }
@@ -87,32 +82,8 @@ namespace Fluid.Utils.Nuget.Packer
         static void Main(string[] args)
         {
             Initialize(args);
-            UpdateVersions();
+            
             Pack();
-        }
-
-        /// <summary>
-        /// Updates versions.
-        /// </summary>
-        private static void UpdateVersions()
-        {
-            var files = Directory.GetFiles(PropsDirectory);
-
-            foreach (var file in files)
-            {
-                var doc = XDocument.Load(file);
-
-                var elements = doc.Elements().Elements().Where(n => n.Name.LocalName == "PropertyGroup")
-                    .Elements()
-                    .Where(e => e.Name.LocalName == "Version");
-
-                foreach (var element in elements)
-                {
-                    element.Value = Version;
-                }
-
-                doc.Save(file);
-            }
         }
 
         /// <summary>
@@ -123,7 +94,7 @@ namespace Fluid.Utils.Nuget.Packer
         {
             try
             {
-                const int argsCount = 10;
+                const int argsCount = 9;
 
                 if (args.Length != argsCount)
                 {
@@ -211,14 +182,6 @@ namespace Fluid.Utils.Nuget.Packer
 
                 // [8] properties
                 Properties = args[8];
-
-                // [9] props directory
-                PropsDirectory = args[9];
-                if (!Directory.Exists(PropsDirectory))
-                {
-                    Directory.CreateDirectory(PropsDirectory);
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Props directory created " + OutputDirectory);
-                }
 
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Properties initialized - " + Properties);
 
