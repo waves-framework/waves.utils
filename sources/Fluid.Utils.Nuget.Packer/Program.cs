@@ -217,7 +217,7 @@ namespace Fluid.Utils.Nuget.Packer
                 if (!Directory.Exists(PropsDirectory))
                 {
                     Directory.CreateDirectory(PropsDirectory);
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Output directory created " + OutputDirectory);
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Props directory created " + OutputDirectory);
                 }
 
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Properties initialized - " + Properties);
