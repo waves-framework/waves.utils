@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Fluid.Utils.Nuget.Packer
 {
@@ -58,6 +61,11 @@ namespace Fluid.Utils.Nuget.Packer
         private static string OutputDirectory { get; set; }
 
         /// <summary>
+        /// Gets or sets .props directory.
+        /// </summary>
+        private static string PropsDirectory { get; set; }
+
+        /// <summary>
         /// Gets or sets nuget version.
         /// </summary>
         private static string Version { get; set; }
@@ -79,7 +87,32 @@ namespace Fluid.Utils.Nuget.Packer
         static void Main(string[] args)
         {
             Initialize(args);
+            UpdateVersions();
             Pack();
+        }
+
+        /// <summary>
+        /// Updates versions.
+        /// </summary>
+        private static void UpdateVersions()
+        {
+            var files = Directory.GetFiles(PropsDirectory);
+
+            foreach (var file in files)
+            {
+                var doc = XDocument.Load(file);
+
+                var elements = doc.Elements().Elements().Where(n => n.Name.LocalName == "PropertyGroup")
+                    .Elements()
+                    .Where(e => e.Name.LocalName == "Version");
+
+                foreach (var element in elements)
+                {
+                    element.Value = Version;
+                }
+
+                doc.Save(file);
+            }
         }
 
         /// <summary>
@@ -90,73 +123,69 @@ namespace Fluid.Utils.Nuget.Packer
         {
             try
             {
-                if (args.Length != 9)
+                const int argsCount = 10;
+
+                if (args.Length != argsCount)
                 {
                     throw new ArgumentException("Invalid arguments specified.");
                 }
 
-                // nuget.exe
+                // [0] nuget.exe
                 if (!File.Exists(args[0]))
                 {
                     throw new FileNotFoundException("Nuget.exe not found.", args[0]);
                 }
-                else
-                {
-                    NugetExePath = args[0];
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "NuGet.exe found.");
-                }
 
-                // pack
+                NugetExePath = args[0];
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "NuGet.exe found.");
+
+                // [1] pack
                 if (!args[1].Equals(PackCommandKey))
                 {
                     throw new ArgumentException("Invalid arguments specified (pack).");
                 }
 
-                // working path
+                // [2] working path
                 if (!Directory.Exists(args[2]))
                 {
                     throw new DirectoryNotFoundException("Working directory not found (" + args[2] + ").");
                 }
-                else
+
+                WorkingPath = args[2];
+
+                if (!Directory.Exists(WorkingTemplatesPath))
                 {
-                    WorkingPath = args[2];
-
-                    if (!Directory.Exists(WorkingTemplatesPath))
-                    {
-                        throw new DirectoryNotFoundException("Templates directory not found (" + WorkingTemplatesPath + ").");
-                    }
-                    else
-                    {
-                        Templates.Clear();
-
-                        foreach (var file in Directory.GetFiles(WorkingTemplatesPath))
-                        {
-                            var templateFileInformation = new FileInfo(file);
-                            if (templateFileInformation.Extension.Equals(".template"))
-                            {
-                                Templates.Add(file);
-                                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Template file added " + file);
-                            }
-                        }
-                    }
-
-                    if (!Directory.Exists(WorkingNuspecPath))
-                    {
-                        Directory.CreateDirectory(WorkingNuspecPath);
-
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Nuspec directory created.");
-                    }
-
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Working directory found and initialized.");
+                    throw new DirectoryNotFoundException("Templates directory not found (" + WorkingTemplatesPath + ").");
                 }
 
-                // output directory key
+                Templates.Clear();
+
+                foreach (var file in Directory.GetFiles(WorkingTemplatesPath))
+                {
+                    var templateFileInformation = new FileInfo(file);
+                    if (templateFileInformation.Extension.Equals(".template"))
+                    {
+                        Templates.Add(file);
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Template file added " + file);
+                    }
+                }
+
+                if (!Directory.Exists(WorkingNuspecPath))
+                {
+                    Directory.CreateDirectory(WorkingNuspecPath);
+
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Nuspec directory created.");
+                }
+
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Working directory found and initialized.");
+
+                // [3] output directory key
                 if (!args[3].Equals(OutputDirectoryKey))
                 {
                     throw new ArgumentException("Invalid arguments specified (-OutputDirectory).");
                 }
 
-                // output directory
+                // [4] output directory
                 OutputDirectory = args[4];
                 if (!Directory.Exists(OutputDirectory))
                 {
@@ -164,24 +193,33 @@ namespace Fluid.Utils.Nuget.Packer
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Output directory created " + OutputDirectory);
                 }
 
-                // version key
+                // [5] version key
                 if (!args[5].Equals(VersionKey))
                 {
                     throw new ArgumentException("Invalid arguments specified (-Version).");
                 }
 
-                // version
+                // [6] version
                 Version = args[6];
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Version initialized - " + Version);
 
-                // properties key
+                // [7] properties key
                 if (!args[7].Equals(PropertiesKey))
                 {
                     throw new ArgumentException("Invalid arguments specified (-Properties).");
                 }
 
-                // properties
+                // [8] properties
                 Properties = args[8];
+
+                // [9] props directory
+                PropsDirectory = args[9];
+                if (!Directory.Exists(PropsDirectory))
+                {
+                    Directory.CreateDirectory(PropsDirectory);
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Output directory created " + OutputDirectory);
+                }
+
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Properties initialized - " + Properties);
 
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Utility initialized successfully.");
