@@ -7,16 +7,16 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace Fluid.Utils.Nuget.Packer
+namespace Waves.Utils.Nuget.Packer
 {
     /// <summary>
-    /// Fluid nuget packer utility.
+    /// Waves nuget packer utility.
     /// </summary>
     class Program
     {
         private static StringBuilder _output;
 
-        private const string ProgramName = "[Fluid Nuget Packer]";
+        private const string ProgramName = "[Waves Nuget Packer]";
 
         private const string InformationKey = "[INFORMATION]";
         private const string WarningKey = "[WARNING]";

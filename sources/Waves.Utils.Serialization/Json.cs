@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace Fluid.Utils.Serialization
+namespace Waves.Utils.Serialization
 {
     /// <summary>
     /// JSON serialization.
