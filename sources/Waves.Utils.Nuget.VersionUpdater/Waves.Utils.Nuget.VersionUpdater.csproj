@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>packer</AssemblyName>
+    <AssemblyName>versionupdater</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="../../props/Fluid.Utils.props" />
+  <Import Project="../../props/Waves.Utils.props" />
 
 </Project>

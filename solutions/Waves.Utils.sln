@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluid.Utils.Serialization", "..\sources\Fluid.Utils.Serialization\Fluid.Utils.Serialization.csproj", "{DA344A45-CD78-41A0-A607-6181C3C904C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waves.Utils.Serialization", "..\sources\Waves.Utils.Serialization\Waves.Utils.Serialization.csproj", "{DA344A45-CD78-41A0-A607-6181C3C904C1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluid.Utils.Nuget.Packer", "..\sources\Fluid.Utils.Nuget.Packer\Fluid.Utils.Nuget.Packer.csproj", "{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waves.Utils.Nuget.Packer", "..\sources\Waves.Utils.Nuget.Packer\Waves.Utils.Nuget.Packer.csproj", "{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluid.Utils.Nuget.VersionUpdater", "..\sources\Fluid.Utils.Nuget.VersionUpdater\Fluid.Utils.Nuget.VersionUpdater.csproj", "{F7784152-EFD7-4123-B9C5-BB4CD9F05731}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Nuget.VersionUpdater", "..\sources\Waves.Utils.Nuget.VersionUpdater\Waves.Utils.Nuget.VersionUpdater.csproj", "{F7784152-EFD7-4123-B9C5-BB4CD9F05731}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

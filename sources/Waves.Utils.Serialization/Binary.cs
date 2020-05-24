@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Fluid.Utils.Serialization
+namespace Waves.Utils.Serialization
 {
     /// <summary>
     /// Binary serialization.

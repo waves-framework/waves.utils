@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-namespace Fluid.Utils.Nuget.VersionUpdater
+namespace Waves.Utils.Nuget.VersionUpdater
 {
     class Program
     {
-        private const string ProgramName = "[Fluid Nuget Packer]";
+        private const string ProgramName = "[Waves Nuget Packer]";
 
         private const string InformationKey = "[INFORMATION]";
         private const string WarningKey = "[WARNING]";
