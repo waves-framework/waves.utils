@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>Fluid.Utils.Serialization</id>
+    <id>Waves.Utils.Serialization</id>
     <version>{$NUGETVERSION}</version>
-    <authors>Fluid</authors>
-    <owners>Fluid</owners>
+    <authors>Waves</authors>
+    <owners>Waves</owners>
     <licenseUrl>https://ambertape.ru</licenseUrl>
     <projectUrl>https://ambertape.ru</projectUrl>
     <icon>files\logo.png</icon>
@@ -12,7 +12,7 @@
     <description>Библиотека утилит сериализации.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019-2020</copyright>
-    <tags>fluid core utils serialization</tags>
+    <tags>Waves core utils serialization</tags>
     <dependencies>
       <group targetFramework=".NETCoreApp3.1">
         <dependency id="Newtonsoft.Json" version="12.0.3" />
@@ -26,11 +26,11 @@
   </metadata>
   <files>
     <file src="..\..\files\logo.png" target="files\" />
-    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Fluid.Utils.Serialization.dll" target="lib\netcoreapp3.1"/>
-    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Fluid.Utils.Serialization.xml" target="lib\netcoreapp3.1"/>
-    <file src="..\..\bin\x86\release\netcoreapp3.1\Fluid.Utils.Serialization.dll" target="build\x86"/>
-    <file src="..\..\bin\x86\release\netcoreapp3.1\Fluid.Utils.Serialization.xml" target="build\x86"/>
-    <file src="..\..\bin\x64\release\netcoreapp3.1\Fluid.Utils.Serialization.dll" target="build\x64"/>
-    <file src="..\..\bin\x64\release\netcoreapp3.1\Fluid.Utils.Serialization.xml" target="build\x64"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="lib\netcoreapp3.1"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="lib\netcoreapp3.1"/>
+    <file src="..\..\bin\x86\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="build\x86"/>
+    <file src="..\..\bin\x86\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="build\x86"/>
+    <file src="..\..\bin\x64\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="build\x64"/>
+    <file src="..\..\bin\x64\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="build\x64"/>
   </files>     
 </package>
