@@ -9,7 +9,7 @@
     <projectUrl>https://ambertape.ru</projectUrl>
     <icon>files\logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Библиотека утилит сериализации.</description>
+    <description>Library of serialization utils.</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright 2019-2020</copyright>
     <tags>Waves core utils serialization</tags>
