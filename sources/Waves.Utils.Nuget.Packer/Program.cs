@@ -95,19 +95,6 @@ namespace Waves.Utils.Nuget.Packer
         {
             try
             {
-                args = new[]
-                {
-                    @"C:\files\NuGet.exe", 
-                    "pack", 
-                    @"C:\repos\waves\core\nuget\", 
-                    "-OutputDirectory",
-                    @"C:\files\packages\2020.1.160", 
-                    "-Version", 
-                    "2020.1.160", 
-                    "-Properties", 
-                    "Configuration=Debug"
-                };
-
                 const int argsCount = 9;
 
                 if (args.Length != argsCount)
