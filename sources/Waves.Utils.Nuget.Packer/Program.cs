@@ -81,19 +81,33 @@ namespace Waves.Utils.Nuget.Packer
         /// <param name="args">Arguments.</param>
         static void Main(string[] args)
         {
-            Initialize(args);
-            
-            Pack();
+            if (Initialize(args))
+            {
+                Pack();
+            }
         }
 
         /// <summary>
         /// Initialized program.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        private static void Initialize(string[] args)
+        private static bool Initialize(string[] args)
         {
             try
             {
+                args = new[]
+                {
+                    @"C:\files\NuGet.exe", 
+                    "pack", 
+                    @"C:\repos\waves\core\nuget\", 
+                    "-OutputDirectory",
+                    @"C:\files\packages\2020.1.160", 
+                    "-Version", 
+                    "2020.1.160", 
+                    "-Properties", 
+                    "Configuration=Debug"
+                };
+
                 const int argsCount = 9;
 
                 if (args.Length != argsCount)
@@ -186,12 +200,16 @@ namespace Waves.Utils.Nuget.Packer
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Properties initialized - " + Properties);
 
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Utility initialized successfully.");
+
+                return true;
             }
             catch (Exception e)
             {
                 Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
 
                 Environment.ExitCode = 100;
+
+                return false;
             }
         }
 
@@ -262,7 +280,7 @@ namespace Waves.Utils.Nuget.Packer
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
                     Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
 
-                    var process = new System.Diagnostics.Process
+                    var process = new Process
                     {
                         StartInfo =
                         {
@@ -277,16 +295,18 @@ namespace Waves.Utils.Nuget.Packer
                     };
 
                     _output = new StringBuilder();
+
                     process.OutputDataReceived += OnPackProcessOutputDataReceived;
+                    process.ErrorDataReceived += OnProcessErrorDataReceived;
 
                     process.Start();
                     process.BeginOutputReadLine();
-                    process.StandardError.ReadToEnd();
+
+                    var error = process.StandardError.ReadToEnd().Replace("\r\n", string.Empty);
+
                     process.WaitForExit();
-
-                    Environment.ExitCode = process.ExitCode;
-
-                    if (Environment.ExitCode == 0)
+                    
+                    if (process.ExitCode == 0)
                     {
                         Console.WriteLine(_output);
                         Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
@@ -295,6 +315,7 @@ namespace Waves.Utils.Nuget.Packer
                     else
                     {
                         Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "Package not created from nuspec file (" + nuspecFileFullName + ").");
+                        Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, error);
                     }
                 }
                 catch (Exception e)
@@ -307,13 +328,25 @@ namespace Waves.Utils.Nuget.Packer
         }
 
         /// <summary>
+        /// Notifies when error data received.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Arguments.</param>
+        private static void OnProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (e.Data != null)
+                _output.AppendLine(e.Data.Replace("\r\n", string.Empty));
+        }
+
+        /// <summary>
         /// Notifies when output data received.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Arguments.</param>
         private static void OnPackProcessOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
-            _output.AppendLine(e.Data);
+            if (e.Data != null)
+                _output.AppendLine(e.Data.Replace("\r\n", string.Empty));
         }
     }
 }
