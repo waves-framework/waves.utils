@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library of serialization utils.</description>
     <releaseNotes>
-    	First release of package.
+    	The first release of package.
     	- Simple serialisation / deserialization of objects in binary / xml / json.
     </releaseNotes>
     <copyright>Copyright (c) 2020 Egor Khindikaynen</copyright>
