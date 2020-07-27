@@ -17,11 +17,8 @@
     <copyright>Copyright (c) 2020 Egor Khindikaynen</copyright>
     <tags>Waves utils serialization</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.6.2">
-        <dependency id="Newtonsoft.Json" version="12.0.3"/>
-      </group>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="Newtonsoft.Json" version="12.0.3"/>
+        <dependency id="Newtonsoft.Json" version="12.0.3" />
       </group>
     </dependencies>
     <frameworkReferences>
@@ -33,9 +30,7 @@
   <files>
   	<file src="..\..\license.md" target="" />
     <file src="..\..\files\logo_small.png" target="files\" />
-    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="lib\netcoreapp3.1"/>
-    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="lib\netcoreapp3.1"/>
-    <file src="..\..\bin\AnyCPU\release\net462\Waves.Utils.Serialization.dll" target="lib\net462"/>
-    <file src="..\..\bin\AnyCPU\release\net462\Waves.Utils.Serialization.xml" target="lib\net462"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="ref\netcoreapp3.1"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="ref\netcoreapp3.1"/>
   </files>     
 </package>
