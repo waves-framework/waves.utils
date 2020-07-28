@@ -30,7 +30,7 @@
   <files>
   	<file src="..\..\license.md" target="" />
     <file src="..\..\files\logo_small.png" target="files\" />
-    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="ref\netcoreapp3.1"/>
-    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="ref\netcoreapp3.1"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="lib\netcoreapp3.1"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="lib\netcoreapp3.1"/>
   </files>     
 </package>
