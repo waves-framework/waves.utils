@@ -82,7 +82,7 @@ namespace Waves.Utils.Nuget.VersionUpdater
             {
                 Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
 
-                Environment.ExitCode = 100;
+                Environment.ExitCode = 1;
             }
         }
 
@@ -117,7 +117,7 @@ namespace Waves.Utils.Nuget.VersionUpdater
             {
                 Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while updating props versions:\r\n" + e);
 
-                Environment.ExitCode = 100;
+                Environment.ExitCode = 1;
             }
         }
     }

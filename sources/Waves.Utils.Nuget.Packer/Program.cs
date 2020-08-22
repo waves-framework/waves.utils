@@ -194,7 +194,7 @@ namespace Waves.Utils.Nuget.Packer
             {
                 Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
 
-                Environment.ExitCode = 100;
+                Environment.ExitCode = 1;
 
                 return false;
             }
@@ -309,7 +309,7 @@ namespace Waves.Utils.Nuget.Packer
                 {
                     Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while packing files:\r\n" + e);
 
-                    Environment.ExitCode = 200;
+                    Environment.ExitCode = 1;
                 }
             }
         }
