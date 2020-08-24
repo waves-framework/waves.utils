@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace Waves.Utils.Nuget.VersionUpdater
 {
-    class Program
+    /// <summary>
+    /// Update version utility.
+    /// </summary>
+    static class Program
     {
-        private const string ProgramName = "[Waves Nuget Packer]";
-
         private const string InformationKey = "[INFORMATION]";
         private const string WarningKey = "[WARNING]";
         private const string ErrorKey = "[ERROR]";
@@ -32,9 +34,20 @@ namespace Waves.Utils.Nuget.VersionUpdater
         /// <param name="args">Arguments.</param>
         static void Main(string[] args)
         {
+            var watch = new Stopwatch();
+            watch.Start();
+            
+            Console.WriteLine("Starting Version Updater utility...");
+            
             Initialize(args);
 
             UpdateVersions();
+            
+            watch.Stop();
+            var elapsed = Math.Round(watch.Elapsed.TotalSeconds, 1);
+            
+            Console.WriteLine("Version update succeeded.");
+            Console.WriteLine("Time elapsed: " + elapsed + " Seconds");
         }
 
         /// <summary>
@@ -63,7 +76,7 @@ namespace Waves.Utils.Nuget.VersionUpdater
                 if (!Directory.Exists(PropsDirectory))
                 {
                     Directory.CreateDirectory(PropsDirectory);
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Props directory created " + PropsDirectory);
+                    Console.WriteLine("{0}: {1}", InformationKey, "Props directory created " + PropsDirectory);
                 }
 
                 // [2] version key
@@ -74,13 +87,13 @@ namespace Waves.Utils.Nuget.VersionUpdater
 
                 // [3] version
                 Version = args[3];
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Version initialized - " + Version);
+                Console.WriteLine("{0}: {1}", InformationKey, "Version initialized - " + Version);
 
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Utility initialized successfully.");
+                Console.WriteLine("{0}: {1}", InformationKey, "Utility initialized successfully.");
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
+                Console.WriteLine("{0}: {1}", ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
 
                 Environment.ExitCode = 1;
             }
@@ -111,11 +124,11 @@ namespace Waves.Utils.Nuget.VersionUpdater
                     doc.Save(file);
                 }
 
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Props versions updated successfully (" + Version + ")");
+                Console.WriteLine("{0}: {1}", InformationKey, "Props versions updated successfully (" + Version + ")");
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while updating props versions:\r\n" + e);
+                Console.WriteLine("{0}: {1}", ErrorKey, "An error occurred while updating props versions:\r\n" + e);
 
                 Environment.ExitCode = 1;
             }

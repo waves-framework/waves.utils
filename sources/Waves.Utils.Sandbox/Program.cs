@@ -1,5 +1,6 @@
 ﻿using System;
 using Waves.Utils.Nuget;
+using Waves.Utils.Project;
 
 namespace Waves.Utils.Sandbox
 {
@@ -7,8 +8,7 @@ namespace Waves.Utils.Sandbox
     {
         static void Main(string[] args)
         {
-            var manager = new Manager();
-            var version = manager.GetLastPackageMinorVersion("Waves.Core").Result;
+            var list = Nuspec.GetDependencyList("/Users/egorkhindikaynen/repos/ambertape/waves/utils/tests/data/nuget/templates/Test.nuspec.template");
         }
     }
 }

@@ -7,6 +7,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Waves.Utils.Nuget\Waves.Utils.Nuget.csproj" />
+      <ProjectReference Include="..\Waves.Utils.Project\Waves.Utils.Project.csproj" />
     </ItemGroup>
 
 </Project>
