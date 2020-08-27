@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NuGet.Packaging;
 
 namespace Waves.Utils.Project
@@ -35,24 +36,18 @@ namespace Waves.Utils.Project
         ///     Gets list of project NuGet dependencies from nuspec file.
         /// </summary>
         /// <returns>List of project NuGet dependencies</returns>
-        public static Dictionary<string, Version> GetDependencyList(string fileName)
+        public static List<Package> GetDependencyList(string fileName)
         {
-            var result = new Dictionary<string, Version>();
             var reader = new NuspecReader(fileName);
             var dependencies = reader.GetDependencyGroups();
 
-            foreach (var dependency in dependencies)
-            {
-                foreach (var package in dependency.Packages)
-                {
-                    result.Add(package.Id,
-                        package.VersionRange.MaxVersion != null
-                            ? package.VersionRange.MaxVersion.Version
-                            : package.VersionRange.MinVersion.Version);
-                }
-            }
-
-            return result;
+            return (from dependency in dependencies 
+                from package in dependency.Packages 
+                select new Package(
+                    package.Id, 
+                    package.VersionRange.MinVersion?.Version, 
+                    package.VersionRange.MaxVersion?.Version))
+                .ToList();
         }
     }
 }
