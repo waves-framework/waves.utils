@@ -28,7 +28,7 @@ namespace Waves.Utils.Sandbox
             
             Csproj.ReplaceDependencyVersions("/Users/egorkhindikaynen/repos/ambertape/waves/utils/tests/data/sources/Test/Test.csproj", packages);
             
-            GitManager.Reset("/Users/egorkhindikaynen/repos/ambertape/waves/utils");
+            GitManager.Reset("/Users/egorkhindikaynen/repos/ambertape/waves/utils/");
         }
     }
 }
