@@ -31,15 +31,17 @@ namespace Waves.Utils.Git
         {
             var author = new Signature(userName, email, DateTime.Now);
             var committer = author;
+            
             using var repo = new Repository(repoPath);
-            var commitTree = repo.Head.Tip.Tree; // Main Tree
-            var parentCommitTree = repo.Head.Tip.Parents.First().Tree; // Secondary Tree
+            var commitTree = repo.Head.Tip.Tree;
+            var parentCommitTree = repo.Head.Tip.Parents.First().Tree;
             var patch = repo.Diff.Compare<Patch>(parentCommitTree, commitTree);
-            foreach (var p in patch)
-            {
+            
+            foreach (var p in patch) 
                 repo.Index.Add(p.Path);
-            }
-
+            
+            repo.Index.Write();
+            repo.Commit(message, author, committer);
         }
 
         /// <summary>
