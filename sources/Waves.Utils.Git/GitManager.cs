@@ -56,11 +56,12 @@ namespace Waves.Utils.Git
             var options = new PushOptions
             {
                 CredentialsProvider = (url, user, cred) =>
-                    new UsernamePasswordCredentials {Username = userName, Password = password}
+                    new UsernamePasswordCredentials {Username = userName, Password = password},
             };
+            
 
             var branch = repo.Head.TrackedBranch;
-            repo.Network.Push(remote, branch.Reference.CanonicalName, options);
+            repo.Network.Push(remote, branch.RemoteName, options);
         }
 
         /// <summary>
