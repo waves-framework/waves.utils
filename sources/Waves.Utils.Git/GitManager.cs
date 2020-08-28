@@ -61,7 +61,7 @@ namespace Waves.Utils.Git
             
 
             var branch = repo.Head.TrackedBranch;
-            repo.Network.Push(remote, branch.FriendlyName, options);
+            repo.Network.Push(remote, branch.UpstreamBranchCanonicalName, options);
         }
 
         /// <summary>
