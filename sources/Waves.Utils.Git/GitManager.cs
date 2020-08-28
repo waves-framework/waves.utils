@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 
@@ -34,7 +33,14 @@ namespace Waves.Utils.Git
             var committer = author;
             
             using var repo = new Repository(repoPath);
-            StageChanges(repo);
+            var commitTree = repo.Head.Tip.Tree;
+            var parentCommitTree = repo.Head.Tip.Parents.First().Tree;
+            var patch = repo.Diff.Compare<Patch>(parentCommitTree, commitTree);
+            
+            foreach (var p in patch) 
+                repo.Index.Add(p.Path);
+            
+            repo.Index.Write();
             repo.Commit(message, author, committer);
         }
 
@@ -61,18 +67,6 @@ namespace Waves.Utils.Git
 
             var branch = repo.Head.TrackedBranch;
             repo.Network.Push(branch, options);
-        }
-
-        /// <summary>
-        /// Stages changes for current repository.
-        /// </summary>
-        /// <param name="repository"></param>
-        public static void StageChanges(Repository repository)
-        {
-            var status = repository.RetrieveStatus();
-            var filePaths = status.Modified.Select(mods => mods.FilePath).ToList();
-            foreach (var path in filePaths) 
-                Commands.Stage(repository, path);
         }
     }
 }
