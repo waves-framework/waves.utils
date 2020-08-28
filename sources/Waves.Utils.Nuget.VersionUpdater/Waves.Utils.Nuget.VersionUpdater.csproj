@@ -5,6 +5,10 @@
     <AssemblyName>versionupdater</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Waves.Utils.Project\Waves.Utils.Project.csproj" />
+  </ItemGroup>
+
   <Import Project="../../props/Waves.Utils.props" />
 
 </Project>

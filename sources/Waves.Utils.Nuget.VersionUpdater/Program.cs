@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Waves.Utils.Project;
 
 namespace Waves.Utils.Nuget.VersionUpdater
 {
@@ -110,18 +111,7 @@ namespace Waves.Utils.Nuget.VersionUpdater
 
                 foreach (var file in files)
                 {
-                    var doc = XDocument.Load(file);
-
-                    var elements = doc.Elements().Elements().Where(n => n.Name.LocalName == "PropertyGroup")
-                        .Elements()
-                        .Where(e => e.Name.LocalName == "Version");
-
-                    foreach (var element in elements)
-                    {
-                        element.Value = Version;
-                    }
-
-                    doc.Save(file);
+                    Props.SetVersion(file, Version);
                 }
 
                 Console.WriteLine("{0}: {1}", InformationKey, "Props versions updated successfully (" + Version + ")");
