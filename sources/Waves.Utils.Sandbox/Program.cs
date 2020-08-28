@@ -31,6 +31,7 @@ namespace Waves.Utils.Sandbox
             //GitManager.Reset("/Users/egorkhindikaynen/repos/ambertape/waves/utils/");
             
             GitManager.Commit("/Users/egorkhindikaynen/repos/ambertape/waves/utils/", "Test", "Test", "test");
+            GitManager.Push( "/Users/egorkhindikaynen/repos/ambertape/waves/utils/", "origin","khek", "i90CanSee50This99");
         }
     }
 }
