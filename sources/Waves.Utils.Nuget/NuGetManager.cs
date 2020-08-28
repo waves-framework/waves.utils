@@ -12,7 +12,7 @@ namespace Waves.Utils.Nuget
     /// <summary>
     /// Manager for operations with NuGet.
     /// </summary>
-    public class Manager
+    public class NuGetManager
     {
         private string _defaultRepository = "https://api.nuget.org/v3/index.json";
         
@@ -21,9 +21,9 @@ namespace Waves.Utils.Nuget
         private SourceRepository _repository;
 
         /// <summary>
-        /// Creates new instance of <see cref="Manager"/>.
+        /// Creates new instance of <see cref="NuGetManager"/>.
         /// </summary>
-        public Manager()
+        public NuGetManager()
         {
             _repository = Repository.Factory.GetCoreV3(_defaultRepository);
         }

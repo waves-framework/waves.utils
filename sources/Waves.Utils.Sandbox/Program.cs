@@ -1,4 +1,5 @@
 ﻿using System;
+using Waves.Utils.Git;
 using Waves.Utils.Nuget;
 using Waves.Utils.Project;
 
@@ -9,11 +10,11 @@ namespace Waves.Utils.Sandbox
         static void Main(string[] args)
         {
             var packages = Nuspec.GetDependencyList("/Users/egorkhindikaynen/repos/ambertape/waves/utils/tests/data/nuget/templates/Test.nuspec.template");
-            var manager = new Manager();
+            var nugetManager = new NuGetManager();
             
             foreach (var package in packages)
             {
-                var version = manager.GetLastPackageMinorVersion(package.Id).Result.Version;
+                var version = nugetManager.GetLastPackageMinorVersion(package.Id).Result.Version;
 
                 var maxVersion = new Version(
                     version.Major, 
@@ -26,6 +27,8 @@ namespace Waves.Utils.Sandbox
             }
             
             Csproj.ReplaceDependencyVersions("/Users/egorkhindikaynen/repos/ambertape/waves/utils/tests/data/sources/Test/Test.csproj", packages);
+            
+            GitManager.Reset("/Users/egorkhindikaynen/repos/ambertape/waves/utils");
         }
     }
 }
