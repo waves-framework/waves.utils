@@ -5,7 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Waves.Utils.Project;
 
-namespace Waves.Utils.Nuget.VersionUpdater
+namespace Waves.Utils.Props.Version.Updater
 {
     /// <summary>
     /// Update version utility.
@@ -109,10 +109,8 @@ namespace Waves.Utils.Nuget.VersionUpdater
             {
                 var files = Directory.GetFiles(PropsDirectory);
 
-                foreach (var file in files)
-                {
-                    Props.SetVersion(file, Version);
-                }
+                foreach (var file in files) 
+                    Project.Props.SetVersion(file, Version);
 
                 Console.WriteLine("{0}: {1}", InformationKey, "Props versions updated successfully (" + Version + ")");
             }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waves.Utils.Serialization",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Waves.Utils.Nuget.Packer", "..\sources\Waves.Utils.Nuget.Packer\Waves.Utils.Nuget.Packer.csproj", "{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Nuget.VersionUpdater", "..\sources\Waves.Utils.Nuget.VersionUpdater\Waves.Utils.Nuget.VersionUpdater.csproj", "{F7784152-EFD7-4123-B9C5-BB4CD9F05731}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Props.Version.Updater", "..\sources\Waves.Utils.Props.Version.Updater\Waves.Utils.Props.Version.Updater.csproj", "{F7784152-EFD7-4123-B9C5-BB4CD9F05731}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{80B5E616-0F53-491B-AC50-00CEFC81B47B}"
 EndProject
