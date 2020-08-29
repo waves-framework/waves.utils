@@ -2,320 +2,270 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Xml;
-using System.Xml.Linq;
+using Waves.Utils.Project;
 
 namespace Waves.Utils.Nuget.Packer
 {
     /// <summary>
-    /// Waves nuget packer utility.
+    ///     Waves nuget packer utility.
     /// </summary>
-    class Program
+    public static class Program
     {
-        private static StringBuilder _output;
-
         private const string ProgramName = "[Waves Nuget Packer]";
 
         private const string InformationKey = "[INFORMATION]";
         private const string WarningKey = "[WARNING]";
         private const string ErrorKey = "[ERROR]";
-
-        private const string NugetVersionKey = "{$NUGETVERSION}";
         private const string PackCommandKey = "pack";
-        private const string OutputDirectoryKey = "-OutputDirectory";
-        private const string VersionKey = "-Version";
-        private const string PropertiesKey = "-Properties";
-
+        private const string NugetVersionKey = "{$NUGETVERSION}";
+        private const string NuGetExePathKey = "NuGetExePath";
+        private const string WorkingPathKey = "WorkingPath";
+        private const string OutputDirectoryKey = "OutputDirectory";
+        private const string VersionKey = "Version";
+        private const string PropertiesKey = "Properties";
+        
+        private static StringBuilder _output;
+        
         /// <summary>
-        /// Gets or sets cmd.exe path.
+        ///     Gets nuspec templates folder.
         /// </summary>
-        private static string CmdExePath { get; set; } = "CMD.exe";
+        private static string WorkingTemplatesPath => Path.Combine(Args[WorkingPathKey], "templates");
 
         /// <summary>
-        /// Path to NuGet.exe
+        ///     Gets nuspec folder.
         /// </summary>
-        private static string NugetExePath { get; set; }
+        private static string WorkingNuspecPath => Path.Combine(Args[WorkingPathKey], "nuspec");
 
         /// <summary>
-        /// Gets or sets path to directory which includes "nuspec" and "templates" folders.
-        /// "nuspec" folder contains generated .nuspec files.
-        /// "templates" folder contains template for nuspec files.
+        /// Gets or sets arguments dictionary.
         /// </summary>
-        private static string WorkingPath { get; set; }
+        private static Dictionary<string, string> Args { get; set; }
 
         /// <summary>
-        /// Gets nuspec templates folder.
+        ///     Gets or sets template files collection.
         /// </summary>
-        private static string WorkingTemplatesPath => Path.Combine(WorkingPath, "templates");
+        private static List<string> Templates { get; } = new List<string>();
 
         /// <summary>
-        /// Gets nuspec folder.
-        /// </summary>
-        private static string WorkingNuspecPath => Path.Combine(WorkingPath, "nuspec");
-
-        /// <summary>
-        /// Gets or sets output directory for nuget packages.
-        /// </summary>
-        private static string OutputDirectory { get; set; }
-
-        /// <summary>
-        /// Gets or sets nuget version.
-        /// </summary>
-        private static string Version { get; set; }
-
-        /// <summary>
-        /// Gets or sets other properties.
-        /// </summary>
-        private static string Properties { get; set; }
-
-        /// <summary>
-        /// Gets or sets template files collection.
-        /// </summary>
-        private static List<string> Templates { get; set; } = new List<string>();
-
-        /// <summary>
-        /// Main method.
+        ///     Main method.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            if (Initialize(args))
-            {
+            if (Initialize(args)) 
                 Pack();
-            }
         }
 
         /// <summary>
-        /// Initialized program.
+        ///     Initialized program.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        private static bool Initialize(string[] args)
+        public static bool Initialize(string[] args)
         {
             try
             {
-                const int argsCount = 9;
+                Args = Arguments.ReadFromArray(args);
+                
+                if (!Args.ContainsKey(WorkingPathKey))
+                    throw new Exception("Working path is not defined.");
+                
+                if (!Args.ContainsKey(OutputDirectoryKey))
+                    throw new Exception("Output directory is not defined.");
 
-                if (args.Length != argsCount)
-                {
-                    throw new ArgumentException("Invalid arguments specified.");
-                }
+                if (!Args.ContainsKey(NuGetExePathKey))
+                    throw new Exception("NuGet.exe path is not defined.");
 
-                // [0] nuget.exe
-                if (!File.Exists(args[0]))
-                {
-                    throw new FileNotFoundException("Nuget.exe not found.", args[0]);
-                }
-
-                NugetExePath = args[0];
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "NuGet.exe found.");
-
-                // [1] pack
-                if (!args[1].Equals(PackCommandKey))
-                {
-                    throw new ArgumentException("Invalid arguments specified (pack).");
-                }
-
-                // [2] working path
-                if (!Directory.Exists(args[2]))
-                {
-                    throw new DirectoryNotFoundException("Working directory not found (" + args[2] + ").");
-                }
-
-                WorkingPath = args[2];
-
-                if (!Directory.Exists(WorkingTemplatesPath))
-                {
-                    throw new DirectoryNotFoundException("Templates directory not found (" + WorkingTemplatesPath + ").");
-                }
-
-                Templates.Clear();
-
-                foreach (var file in Directory.GetFiles(WorkingTemplatesPath))
-                {
-                    var templateFileInformation = new FileInfo(file);
-                    if (templateFileInformation.Extension.Equals(".template"))
-                    {
-                        Templates.Add(file);
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Template file added " + file);
-                    }
-                }
-
-                if (!Directory.Exists(WorkingNuspecPath))
-                {
-                    Directory.CreateDirectory(WorkingNuspecPath);
-
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Nuspec directory created.");
-                }
-
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Working directory found and initialized.");
-
-                // [3] output directory key
-                if (!args[3].Equals(OutputDirectoryKey))
-                {
-                    throw new ArgumentException("Invalid arguments specified (-OutputDirectory).");
-                }
-
-                // [4] output directory
-                OutputDirectory = args[4];
-                if (!Directory.Exists(OutputDirectory))
-                {
-                    Directory.CreateDirectory(OutputDirectory);
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Output directory created " + OutputDirectory);
-                }
-
-                // [5] version key
-                if (!args[5].Equals(VersionKey))
-                {
-                    throw new ArgumentException("Invalid arguments specified (-Version).");
-                }
-
-                // [6] version
-                Version = args[6];
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Version initialized - " + Version);
-
-                // [7] properties key
-                if (!args[7].Equals(PropertiesKey))
-                {
-                    throw new ArgumentException("Invalid arguments specified (-Properties).");
-                }
-
-                // [8] properties
-                Properties = args[8];
-
-                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Properties initialized - " + Properties);
-
+                if (!Args.ContainsKey(VersionKey))
+                    throw new Exception("Version is not defined.");
+                
+                if (!Args.ContainsKey(PropertiesKey))
+                    throw new Exception("Properties is not defined.");
+                
+                if (!Directory.Exists(Args[WorkingPathKey]))
+                    throw new DirectoryNotFoundException("Working directory not found.");
+                
+                if (!Directory.Exists(Args[OutputDirectoryKey]))
+                    throw new DirectoryNotFoundException("Output directory not found.");
+                
+                if (!File.Exists(Args[NuGetExePathKey]))
+                    throw new FileNotFoundException("NuGet.exe not found.");
+                
+                CheckDirectories();
+                InitializeTemplates();
+                
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Utility initialized successfully.");
 
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
+                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey,
+                    "An error occurred while initializing the utility:\r\n" + e);
 
                 Environment.ExitCode = 1;
 
                 return false;
             }
         }
-
+        
         /// <summary>
-        /// Creates packages.
+        ///     Creates packages.
         /// </summary>
-        private static void Pack()
+        public static void Pack()
         {
-            foreach (var templateFileFullName in Templates)
-            {
+            foreach (var fileName in Templates)
                 try
                 {
-                    // copy
-                    var templateFileInformation = new FileInfo(templateFileFullName);
-                    var nuspecFileName = templateFileInformation.Name.Replace(".template", string.Empty);
-                    var nuspecFileFullName = Path.Combine(WorkingNuspecPath, nuspecFileName);
-
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Copying template... (" + templateFileFullName + ").");
-
-                    File.Copy(templateFileFullName, nuspecFileFullName, true);
-
-                    if (!File.Exists(nuspecFileFullName))
-                    {
-                        throw new FileNotFoundException("Nuspec file not copied (" + templateFileFullName + ")", nuspecFileFullName);
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Nuspec file was copied from template (" + nuspecFileFullName + ").");
-                    }
-
-                    // replace data
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Replacing data... (" + templateFileFullName + ").");
-
-                    var hasChanges = false;
-
-                    var lines = File.ReadAllLines(nuspecFileFullName);
-
-                    for (var i = 0; i < lines.Length; i++)
-                    {
-                        if (lines[i].Contains(NugetVersionKey))
-                        {
-                            lines[i] = lines[i].Replace(NugetVersionKey, Version);
-                            hasChanges = true;
-                        }
-                    }
-
-                    File.WriteAllLines(nuspecFileFullName, lines);
-
-                    if (hasChanges)
-                    {
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Nuspec file was changed (" + nuspecFileFullName + ").");
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, WarningKey, "Nuspec file wasn't changed (" + nuspecFileFullName + ")");
-                    }
-
-                    // creating package
-                    var command = PackCommandKey + " " +
-                                        nuspecFileFullName + " " +
-                                        OutputDirectoryKey + " " +
-                                        OutputDirectory + " " +
-                                        VersionKey + " " +
-                                        Version + " " +
-                                        PropertiesKey + " " +
-                                        Properties;
-
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Creating package... (" + nuspecFileFullName + ").");
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
-
-                    var process = new Process
-                    {
-                        StartInfo =
-                        {
-                            FileName = NugetExePath,
-                            Arguments = command,
-                            CreateNoWindow = true,
-                            WindowStyle = ProcessWindowStyle.Hidden,
-                            UseShellExecute = false,
-                            RedirectStandardError = true,
-                            RedirectStandardOutput = true
-                        }
-                    };
-
-                    _output = new StringBuilder();
-
-                    process.OutputDataReceived += OnPackProcessOutputDataReceived;
-                    process.ErrorDataReceived += OnProcessErrorDataReceived;
-
-                    process.Start();
-                    process.BeginOutputReadLine();
-
-                    var error = process.StandardError.ReadToEnd().Replace("\r\n", string.Empty);
-
-                    process.WaitForExit();
-                    
-                    if (process.ExitCode == 0)
-                    {
-                        Console.WriteLine(_output);
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Package created from nuspec file (" + nuspecFileFullName + ").");
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "SUCCESS.");
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "Package not created from nuspec file (" + nuspecFileFullName + ").");
-                        Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, error);
-                    }
+                    Pack(fileName);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, "An error occurred while packing files:\r\n" + e);
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey,
+                        "An error occurred while packing files:\r\n" + e);
 
                     Environment.ExitCode = 1;
+                }
+        }
+
+        /// <summary>
+        /// Checks directories that they created.
+        /// </summary>
+        private static void CheckDirectories()
+        {
+            if (!Directory.Exists(WorkingNuspecPath))
+            {
+                Directory.CreateDirectory(WorkingNuspecPath);
+                    
+                Console.WriteLine(
+                    "{0} {1}: {2}", 
+                    ProgramName, 
+                    InformationKey, 
+                    "Nuspec directory created.");
+            }
+                
+            if (!Directory.Exists(Args[OutputDirectoryKey]))
+            {
+                Directory.CreateDirectory(Args[OutputDirectoryKey]);
+                    
+                Console.WriteLine(
+                    "{0} {1}: {2}", 
+                    ProgramName, 
+                    InformationKey,
+                    "Output directory created ( " + Args[OutputDirectoryKey] + ")");
+            }
+        }
+
+        /// <summary>
+        /// Initializes templates.
+        /// </summary>
+        private static void InitializeTemplates()
+        {
+            Templates.Clear();
+            foreach (var file in Directory.GetFiles(WorkingTemplatesPath))
+            {
+                var templateFileInformation = new FileInfo(file);
+                if (templateFileInformation.Extension.Equals(".template"))
+                {
+                    Templates.Add(file);
+                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Template file added " + file);
                 }
             }
         }
 
         /// <summary>
-        /// Notifies when error data received.
+        ///     Creates package from current template.
+        /// </summary>
+        /// <param name="fileName">Nuspec template file name.</param>
+        private static void Pack(string fileName)
+        {
+            // copy
+            var templateFileInformation = new FileInfo(fileName);
+            var nuspecFileName = templateFileInformation.Name.Replace(".template", string.Empty);
+            var nuspecFileFullName = Path.Combine(WorkingNuspecPath, nuspecFileName);
+
+            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Copying template... (" + fileName + ").");
+
+            File.Copy(fileName, nuspecFileFullName, true);
+
+            if (!File.Exists(nuspecFileFullName))
+                throw new FileNotFoundException("Nuspec file not copied (" + fileName + ")", nuspecFileFullName);
+            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey,
+                "Nuspec file was copied from template (" + nuspecFileFullName + ").");
+
+            // replace data
+            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Replacing data... (" + fileName + ").");
+
+            var hasChanges = Nuspec.ReplaceVersionKey(nuspecFileFullName,NugetVersionKey, Args[VersionKey]);
+
+            if (hasChanges)
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey,
+                    "Nuspec file was changed (" + nuspecFileFullName + ").");
+            else
+                Console.WriteLine("{0} {1}: {2}", ProgramName, WarningKey,
+                    "Nuspec file wasn't changed (" + nuspecFileFullName + ")");
+
+            // creating package
+            var command = PackCommandKey + " " +
+                          nuspecFileFullName + " " +
+                          OutputDirectoryKey + " " +
+                          Args[OutputDirectoryKey] + " " +
+                          VersionKey + " " +
+                          Args[VersionKey] + " " +
+                          PropertiesKey + " " +
+                          Args[PropertiesKey];
+
+            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey,
+                "Creating package... (" + nuspecFileFullName + ").");
+            Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, command);
+
+            var process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = Args[NuGetExePathKey],
+                    Arguments = command,
+                    CreateNoWindow = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true
+                }
+            };
+
+            _output = new StringBuilder();
+
+            process.OutputDataReceived += OnPackProcessOutputDataReceived;
+            process.ErrorDataReceived += OnProcessErrorDataReceived;
+
+            process.Start();
+            process.BeginOutputReadLine();
+
+            var error = process.StandardError.ReadToEnd().Replace("\r\n", string.Empty);
+
+            process.WaitForExit();
+
+            if (process.ExitCode == 0)
+            {
+                Console.WriteLine(_output);
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey,
+                    "Package created from nuspec file (" + nuspecFileFullName + ").");
+                Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "SUCCESS.");
+                
+                process.OutputDataReceived -= OnPackProcessOutputDataReceived;
+                process.ErrorDataReceived -= OnProcessErrorDataReceived;
+            }
+            else
+            {
+                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey,
+                    "Package not created from nuspec file (" + nuspecFileFullName + ").");
+                Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey, error);
+            }
+        }
+
+        /// <summary>
+        ///     Notifies when error data received.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Arguments.</param>
@@ -326,11 +276,11 @@ namespace Waves.Utils.Nuget.Packer
         }
 
         /// <summary>
-        /// Notifies when output data received.
+        ///     Notifies when output data received.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="e">Arguments.</param>
-        private static void OnPackProcessOutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        private static void OnPackProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data != null)
                 _output.AppendLine(e.Data.Replace("\r\n", string.Empty));

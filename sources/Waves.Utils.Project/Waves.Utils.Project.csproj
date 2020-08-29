@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-    </PropertyGroup>
-
+    <Import Project="../../props/Waves.Utils.props" />
+    
     <ItemGroup>
       <PackageReference Include="NuGet.Protocol" Version="5.7.0" />
     </ItemGroup>

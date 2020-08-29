@@ -5,6 +5,11 @@
     <AssemblyName>packer</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Waves.Utils.Project\Waves.Utils.Project.csproj" />
+    <ProjectReference Include="..\Waves.Utils\Waves.Utils.csproj" />
+  </ItemGroup>
+
   <Import Project="../../props/Waves.Utils.props" />
 
 </Project>

@@ -17,8 +17,10 @@ namespace Waves.Utils.Project
         /// <param name="fileName">File name.</param>
         /// <param name="key">Version key.</param>
         /// <param name="version">Current version.</param>
-        public static void ReplaceVersionKey(string fileName, string key, string version)
+        /// <returns>Returns <value>true</value> if file changed and <value>false</value> if not.</returns>
+        public static bool ReplaceVersionKey(string fileName, string key, string version)
         {
+            var hasChanges = false;
             var lines = File.ReadAllLines(fileName);
 
             for (var i = 0; i < lines.Length; i++)
@@ -27,9 +29,11 @@ namespace Waves.Utils.Project
                     continue;
 
                 lines[i] = lines[i].Replace(key, version);
+                hasChanges = true;
             }
 
             File.WriteAllLines(fileName, lines);
+            return hasChanges;
         }
 
         /// <summary>
