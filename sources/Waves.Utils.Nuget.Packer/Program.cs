@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Waves.Core.Base.Interfaces;
+using Waves.Utils.Nuget.Packer.Services;
+using Waves.Utils.Nuget.Packer.Services.Interfaces;
 using Waves.Utils.Project;
 
 namespace Waves.Utils.Nuget.Packer
@@ -14,7 +17,6 @@ namespace Waves.Utils.Nuget.Packer
     public static class Program
     {
         private const string ProgramName = "[Waves Nuget Packer]";
-
         private const string InformationKey = "[INFORMATION]";
         private const string WarningKey = "[WARNING]";
         private const string ErrorKey = "[ERROR]";
@@ -47,6 +49,11 @@ namespace Waves.Utils.Nuget.Packer
         ///     Gets or sets template files collection.
         /// </summary>
         private static List<string> Templates { get; } = new List<string>();
+        
+        /// <summary>
+        /// Core.
+        /// </summary>
+        public static ICore Core { get; set; }
 
         /// <summary>
         ///     Main method.
@@ -54,8 +61,11 @@ namespace Waves.Utils.Nuget.Packer
         /// <param name="args">Arguments.</param>
         private static void Main(string[] args)
         {
-            if (Initialize(args)) 
-                Pack();
+            Core = new Core.Core();
+            Core.Start();
+            
+            // if (Initialize(args)) 
+            //     Pack();
         }
 
         /// <summary>

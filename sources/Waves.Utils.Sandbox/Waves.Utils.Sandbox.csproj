@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,5 +9,7 @@
       <ProjectReference Include="..\Waves.Utils.Nuget\Waves.Utils.Nuget.csproj" />
       <ProjectReference Include="..\Waves.Utils.Project\Waves.Utils.Project.csproj" />
     </ItemGroup>
+
+    <Import Project="../../props/Waves.Utils.props" />
 
 </Project>
