@@ -43,7 +43,9 @@ namespace Waves.Utils.Tests.Nuget.Packer
                 "-WorkingPath",
                 _workingDirectory,
                 "-OutputPath",
-                Path.Combine(_workingDirectory, "bin", "packages")
+                Path.Combine(_workingDirectory, "bin", "packages"),
+                "-Properties",
+                "Configuration=Release"
             };
             try
             {

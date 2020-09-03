@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Waves.Core.Base;
+using Waves.Core.Base.Enums;
 using Waves.Core.Base.Interfaces;
 using Waves.Utils.Nuget.Packer.Services;
 using Waves.Utils.Nuget.Packer.Services.Interfaces;
@@ -33,12 +35,12 @@ namespace Waves.Utils.Nuget.Packer
         /// <summary>
         ///     Gets nuspec templates folder.
         /// </summary>
-        private static string WorkingTemplatesPath => Path.Combine(Args[WorkingPathKey], "templates");
+        private static string WorkingTemplatesPath => Path.Combine(Args[WorkingPathKey], "nuget", "templates");
 
         /// <summary>
         ///     Gets nuspec folder.
         /// </summary>
-        private static string WorkingNuspecPath => Path.Combine(Args[WorkingPathKey], "nuspec");
+        private static string WorkingNuspecPath => Path.Combine(Args[WorkingPathKey], "nuget", "nuspec");
 
         /// <summary>
         /// Gets or sets arguments dictionary.
@@ -59,13 +61,13 @@ namespace Waves.Utils.Nuget.Packer
         ///     Main method.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Core = new Core.Core();
             Core.Start();
             
-            // if (Initialize(args)) 
-            //     Pack();
+            if (Initialize(args)) 
+                Pack();
         }
 
         /// <summary>
@@ -93,6 +95,8 @@ namespace Waves.Utils.Nuget.Packer
                 if (!Args.ContainsKey(PropertiesKey))
                     throw new Exception("Properties is not defined.");
                 
+                CheckDirectories();
+                
                 if (!Directory.Exists(Args[WorkingPathKey]))
                     throw new DirectoryNotFoundException("Working directory not found.");
                 
@@ -102,7 +106,6 @@ namespace Waves.Utils.Nuget.Packer
                 if (!File.Exists(Args[NuGetExePathKey]))
                     throw new FileNotFoundException("NuGet.exe not found.");
                 
-                CheckDirectories();
                 InitializeTemplates();
                 
                 Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Utility initialized successfully.");
@@ -126,6 +129,7 @@ namespace Waves.Utils.Nuget.Packer
         public static void Pack()
         {
             foreach (var fileName in Templates)
+            {
                 try
                 {
                     Pack(fileName);
@@ -137,6 +141,7 @@ namespace Waves.Utils.Nuget.Packer
 
                     Environment.ExitCode = 1;
                 }
+            }
         }
 
         /// <summary>
@@ -148,22 +153,26 @@ namespace Waves.Utils.Nuget.Packer
             {
                 Directory.CreateDirectory(WorkingNuspecPath);
                     
-                Console.WriteLine(
-                    "{0} {1}: {2}", 
-                    ProgramName, 
-                    InformationKey, 
-                    "Nuspec directory created.");
+                Core.WriteLog(
+                    new Message(
+                        "Directory",
+                        "Directory created: " + WorkingNuspecPath,
+                        "Program",
+                        MessageType.Success
+                    ));
             }
                 
             if (!Directory.Exists(Args[OutputDirectoryKey]))
             {
                 Directory.CreateDirectory(Args[OutputDirectoryKey]);
                     
-                Console.WriteLine(
-                    "{0} {1}: {2}", 
-                    ProgramName, 
-                    InformationKey,
-                    "Output directory created ( " + Args[OutputDirectoryKey] + ")");
+                Core.WriteLog(
+                    new Message(
+                        "Directory",
+                        "Directory created: " + Args[OutputDirectoryKey],
+                        "Program",
+                        MessageType.Success
+                    ));
             }
         }
 
@@ -172,16 +181,12 @@ namespace Waves.Utils.Nuget.Packer
         /// </summary>
         private static void InitializeTemplates()
         {
-            Templates.Clear();
-            foreach (var file in Directory.GetFiles(WorkingTemplatesPath))
-            {
-                var templateFileInformation = new FileInfo(file);
-                if (templateFileInformation.Extension.Equals(".template"))
-                {
-                    Templates.Add(file);
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey, "Template file added " + file);
-                }
-            }
+            var service = Core.GetInstance<INuspecTemplatesService>();
+            if (service == null)
+                throw new ArgumentNullException(nameof(service));
+            
+            service.LoadTemplates(WorkingTemplatesPath);
+            service.CreateNuspecs(WorkingNuspecPath, VersionKey, Args[VersionKey]);
         }
 
         /// <summary>

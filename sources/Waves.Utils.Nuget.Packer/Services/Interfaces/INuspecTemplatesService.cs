@@ -28,6 +28,8 @@ namespace Waves.Utils.Nuget.Packer.Services.Interfaces
         /// Creates nuspecs from templates and copy them to <see cref="outputPath"/>.
         /// </summary>
         /// <param name="outputPath">Output path.</param>
-        void CreateNuspecs(string outputPath);
+        /// <param name="versionKey">Version key for replacing.</param>
+        /// <param name="version">Current version to set.</param>
+        void CreateNuspecs(string outputPath, string versionKey, string version);
     }
 }

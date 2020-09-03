@@ -7,6 +7,7 @@ using Waves.Core.Base.Enums;
 using Waves.Core.Base.Interfaces;
 using Waves.Core.Base.Interfaces.Services;
 using Waves.Utils.Nuget.Packer.Services.Interfaces;
+using Waves.Utils.Project;
 
 namespace Waves.Utils.Nuget.Packer.Services
 {
@@ -100,9 +101,73 @@ namespace Waves.Utils.Nuget.Packer.Services
         }
 
         /// <inheritdoc />
-        public void CreateNuspecs(string outputPath)
+        public void CreateNuspecs(string outputPath, string versionKey, string version)
         {
-            throw new NotImplementedException();
+            foreach (var fileName in Templates)
+            {
+                var templateFileInformation = new FileInfo(fileName);
+                var nuspecFileName = templateFileInformation.Name.Replace(".template", string.Empty);
+                var nuspecFileFullName = Path.Combine(outputPath, nuspecFileName);
+                
+                OnMessageReceived(
+                    this, 
+                    new Message(
+                        "Copying templates",
+                        "Copying template... (" + fileName + ").",
+                        Name,
+                        MessageType.Information
+                    ));
+                
+                File.Copy(fileName, nuspecFileFullName, true);
+
+                if (!File.Exists(nuspecFileFullName))
+                {
+                    throw new FileNotFoundException("Nuspec file not copied (" + fileName + ")", nuspecFileFullName);
+                }
+                
+                OnMessageReceived(
+                    this, 
+                    new Message(
+                        "Copying templates",
+                        "Nuspec file was copied from template (" + nuspecFileFullName + ").",
+                        Name,
+                        MessageType.Information
+                    ));
+                
+                OnMessageReceived(
+                    this, 
+                    new Message(
+                        "Versioning",
+                        "Replacing data... (" + fileName + ").",
+                        Name,
+                        MessageType.Information
+                    ));
+                
+                var hasChanges = Nuspec.ReplaceVersionKey(nuspecFileFullName, versionKey, version);
+
+                if (hasChanges)
+                {
+                    OnMessageReceived(
+                        this, 
+                        new Message(
+                            "Versioning",
+                            "The version set successfully - " + version,
+                            Name,
+                            MessageType.Success
+                        ));
+                }
+                else
+                {
+                    OnMessageReceived(
+                        this, 
+                        new Message(
+                            "Versioning",
+                            "The version was not set - " + version,
+                            Name,
+                            MessageType.Success
+                        ));
+                }
+            }
         }
     }
 }
