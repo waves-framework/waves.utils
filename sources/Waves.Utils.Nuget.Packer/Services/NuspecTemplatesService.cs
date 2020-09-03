@@ -125,6 +125,8 @@ namespace Waves.Utils.Nuget.Packer.Services
                     throw new FileNotFoundException("Nuspec file not copied (" + fileName + ")", nuspecFileFullName);
                 }
                 
+                Nuspecs.Add(nuspecFileFullName);
+                
                 OnMessageReceived(
                     this, 
                     new Message(

@@ -205,7 +205,9 @@ namespace Waves.Utils.Nuget.Packer
             File.Copy(fileName, nuspecFileFullName, true);
 
             if (!File.Exists(nuspecFileFullName))
+            {
                 throw new FileNotFoundException("Nuspec file not copied (" + fileName + ")", nuspecFileFullName);
+            }
             Console.WriteLine("{0} {1}: {2}", ProgramName, InformationKey,
                 "Nuspec file was copied from template (" + nuspecFileFullName + ").");
 
