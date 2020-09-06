@@ -41,11 +41,6 @@ namespace Waves.Utils.Nuget.Packer
         private static Dictionary<string, string> Args { get; set; }
 
         /// <summary>
-        ///     Gets or sets template files collection.
-        /// </summary>
-        private static List<string> Templates { get; } = new List<string>();
-        
-        /// <summary>
         /// Core.
         /// </summary>
         private static ICore Core { get; set; }
@@ -79,7 +74,7 @@ namespace Waves.Utils.Nuget.Packer
         ///     Initialized program.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        public static bool Initialize(string[] args)
+        private static bool Initialize(string[] args)
         {
             try
             {
@@ -149,7 +144,7 @@ namespace Waves.Utils.Nuget.Packer
         /// <summary>
         ///     Creates packages.
         /// </summary>
-        public static void Pack()
+        private static void Pack()
         {
             var templateService = Core.GetInstance<INuspecTemplatesService>();
             var packerService = Core.GetInstance<IPackerService>();

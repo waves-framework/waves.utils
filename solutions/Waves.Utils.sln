@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Project", "..\s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Git", "..\sources\Waves.Utils.Git\Waves.Utils.Git.csproj", "{8591FD68-463D-4C5E-927B-8381BE932133}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Git.Pusher", "..\sources\Waves.Utils.Git.Pusher\Waves.Utils.Git.Pusher.csproj", "{317BEF84-223E-49A5-8740-53C05E1F6C3B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Git", "Git", "{92D93DB5-4A65-49BC-B22A-BB309F3679CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{965D1A52-1917-493C-9245-6719CC65A812}"
@@ -28,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils", "..\sources\Waves.Utils\Waves.Utils.csproj", "{0B6BA05B-FDF8-4B83-B88A-D72B9E91F781}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Tests.Nuget.Packer", "..\sources\Waves.Utils.Tests\Waves.Utils.Tests.Nuget.Packer\Waves.Utils.Tests.Nuget.Packer.csproj", "{74B4BA33-2766-4A68-A1A4-06244509F3A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waves.Utils.Nuget.Version.Updater", "..\sources\Waves.Utils.Nuget.Version.Updater\Waves.Utils.Nuget.Version.Updater.csproj", "{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,18 +123,6 @@ Global
 		{8591FD68-463D-4C5E-927B-8381BE932133}.Release|x64.Build.0 = Release|x64
 		{8591FD68-463D-4C5E-927B-8381BE932133}.Release|x86.ActiveCfg = Release|x86
 		{8591FD68-463D-4C5E-927B-8381BE932133}.Release|x86.Build.0 = Release|x86
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Debug|x86.ActiveCfg = Debug|x86
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Debug|x86.Build.0 = Debug|x86
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Debug|x64.ActiveCfg = Debug|x64
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Debug|x64.Build.0 = Debug|x64
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Release|x64.ActiveCfg = Release|x64
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Release|x64.Build.0 = Release|x64
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Release|x86.ActiveCfg = Release|x86
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B}.Release|x86.Build.0 = Release|x86
 		{0B6BA05B-FDF8-4B83-B88A-D72B9E91F781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B6BA05B-FDF8-4B83-B88A-D72B9E91F781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B6BA05B-FDF8-4B83-B88A-D72B9E91F781}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -159,6 +147,18 @@ Global
 		{74B4BA33-2766-4A68-A1A4-06244509F3A9}.Release|x64.Build.0 = Release|x64
 		{74B4BA33-2766-4A68-A1A4-06244509F3A9}.Release|x86.ActiveCfg = Release|x86
 		{74B4BA33-2766-4A68-A1A4-06244509F3A9}.Release|x86.Build.0 = Release|x86
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Debug|x64.Build.0 = Debug|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Debug|x86.Build.0 = Debug|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Release|x64.ActiveCfg = Release|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Release|x64.Build.0 = Release|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Release|x86.ActiveCfg = Release|Any CPU
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -168,9 +168,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8591FD68-463D-4C5E-927B-8381BE932133} = {92D93DB5-4A65-49BC-B22A-BB309F3679CD}
-		{317BEF84-223E-49A5-8740-53C05E1F6C3B} = {92D93DB5-4A65-49BC-B22A-BB309F3679CD}
 		{D0E29F89-81DE-43A9-8386-46C1C8435AE8} = {965D1A52-1917-493C-9245-6719CC65A812}
 		{9998EBA0-BE2A-4DF9-85FB-1C0BB9346934} = {965D1A52-1917-493C-9245-6719CC65A812}
 		{74B4BA33-2766-4A68-A1A4-06244509F3A9} = {80B5E616-0F53-491B-AC50-00CEFC81B47B}
+		{678FCA07-91F5-46EC-8958-EDDB3C0EA1CE} = {965D1A52-1917-493C-9245-6719CC65A812}
 	EndGlobalSection
 EndGlobal

@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Waves.Core.Base;
+using Waves.Core.Base.Enums;
 using Waves.Utils.Project;
 
 namespace Waves.Utils.Props.Version.Updater
@@ -12,12 +15,9 @@ namespace Waves.Utils.Props.Version.Updater
     /// </summary>
     static class Program
     {
-        private const string InformationKey = "[INFORMATION]";
-        private const string WarningKey = "[WARNING]";
-        private const string ErrorKey = "[ERROR]";
-
-        private const string VersionKey = "-Version";
-        private const string PropsDirectoryKey = "-PropsDirectory";
+        private const string Name = "Version Updater";
+        private const string VersionKey = "Version";
+        private const string PropsDirectoryKey = "PropsDirectory";
 
         /// <summary>
         /// Gets or sets nuget version.
@@ -28,6 +28,16 @@ namespace Waves.Utils.Props.Version.Updater
         /// Gets or sets .props directory.
         /// </summary>
         private static string PropsDirectory { get; set; }
+        
+        /// <summary>
+        /// Gets or sets core instance.
+        /// </summary>
+        private static Core.Core Core { get; set; }
+        
+        /// <summary>
+        /// Gets or sets arguments dictionary.
+        /// </summary>
+        private static Dictionary<string, string> Args { get; set; }
 
         /// <summary>
         /// Main method.
@@ -35,68 +45,83 @@ namespace Waves.Utils.Props.Version.Updater
         /// <param name="args">Arguments.</param>
         static void Main(string[] args)
         {
-            var watch = new Stopwatch();
-            watch.Start();
+            Core = new Core.Core();
+            Core.Start();
             
-            Console.WriteLine("Starting Version Updater utility...");
-            
-            Initialize(args);
+            try
+            {
+                var watch = new Stopwatch();
+                watch.Start();
+                
+                Core.WriteLog(new Message(
+                    "Initializing",
+                    "Starting utility...",
+                    Name,
+                     MessageType.Information));
 
-            UpdateVersions();
+                Initialize(args);
+
+                UpdateVersions();
             
-            watch.Stop();
-            var elapsed = Math.Round(watch.Elapsed.TotalSeconds, 1);
+                watch.Stop();
+                var elapsed = Math.Round(watch.Elapsed.TotalSeconds, 1);
+                
+                Core.WriteLog(new Message(
+                    "Cancelling utility",
+                    "Time elapsed: " + elapsed + " Seconds",
+                    Name,
+                    MessageType.Information));
+                
+                Core.WriteLog(new Message(
+                    "Cancelling utility",
+                    "Versions successfully updated.",
+                    Name,
+                    MessageType.Success));
+
+                Environment.ExitCode = 0;
+            }
+            catch (Exception e)
+            {
+                Environment.ExitCode = 1;
+            }
             
-            Console.WriteLine("Version update succeeded.");
-            Console.WriteLine("Time elapsed: " + elapsed + " Seconds");
+            Core.Stop();
         }
 
         /// <summary>
-        /// Initialized program.
+        /// Initializes program.
         /// </summary>
         /// <param name="args">Arguments.</param>
         private static void Initialize(string[] args)
         {
             try
             {
-                const int argsCount = 4;
-
-                if (args.Length != argsCount)
-                {
-                    throw new ArgumentException("Invalid arguments specified.");
-                }
-
-                // [0] props directory key
-                if (!args[0].Equals(PropsDirectoryKey))
-                {
-                    throw new ArgumentException("Invalid arguments specified (-PropsDirectoryKey).");
-                }
-
-                // [1] props directory
-                PropsDirectory = args[1];
-                if (!Directory.Exists(PropsDirectory))
-                {
-                    Directory.CreateDirectory(PropsDirectory);
-                    Console.WriteLine("{0}: {1}", InformationKey, "Props directory created " + PropsDirectory);
-                }
-
-                // [2] version key
-                if (!args[2].Equals(VersionKey))
-                {
-                    throw new ArgumentException("Invalid arguments specified (-Version).");
-                }
-
-                // [3] version
-                Version = args[3];
-                Console.WriteLine("{0}: {1}", InformationKey, "Version initialized - " + Version);
-
-                Console.WriteLine("{0}: {1}", InformationKey, "Utility initialized successfully.");
+                Args = Arguments.ReadFromArray(args);
+                
+                if (!Args.ContainsKey(VersionKey))
+                    throw new Exception("Version is not defined.");
+                
+                if (!Args.ContainsKey(PropsDirectoryKey))
+                    throw new Exception("Props path is not defined.");
+                
+                if (!Directory.Exists(Args[PropsDirectoryKey]))
+                    throw new DirectoryNotFoundException("Props directory not found.");
+                
+                Core.WriteLog(new Message(
+                    "Initializing",
+                    "Arguments initialized successfully.",
+                    Name,
+                    MessageType.Success));
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: {1}", ErrorKey, "An error occurred while initializing the utility:\r\n" + e);
+                Core.WriteLog(new Message(
+                    "Initializing",
+                    "Error occured while initializing utility:\r\n" + e,
+                    Name,
+                    MessageType.Fatal));
 
-                Environment.ExitCode = 1;
+                throw;
             }
         }
 
@@ -109,16 +134,26 @@ namespace Waves.Utils.Props.Version.Updater
             {
                 var files = Directory.GetFiles(PropsDirectory);
 
-                foreach (var file in files) 
+                foreach (var file in files)
+                {
                     Project.Props.SetVersion(file, Version);
-
-                Console.WriteLine("{0}: {1}", InformationKey, "Props versions updated successfully (" + Version + ")");
+                    
+                    Core.WriteLog(new Message(
+                        "Updating versions",
+                        "Props file updated successfully (" + file + ")",
+                        Name,
+                        MessageType.Success));
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0}: {1}", ErrorKey, "An error occurred while updating props versions:\r\n" + e);
+                Core.WriteLog(new Message(
+                    "Initializing",
+                    "Error occured while updating versions:\r\n" + e,
+                    Name,
+                    MessageType.Fatal));
 
-                Environment.ExitCode = 1;
+                throw;
             }
         }
     }

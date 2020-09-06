@@ -29,11 +29,11 @@ namespace Waves.Utils.Nuget
         }
 
         /// <summary>
-        /// Gets last minor version of package.
+        /// Gets latest version of package.
         /// </summary>
         /// <param name="packageName">Package name.</param>
         /// <returns>Version.</returns>
-        public async Task<NuGetVersion> GetLastPackageMinorVersion(string packageName)
+        public async Task<NuGetVersion> GetLatestPackageVersion(string packageName)
         { 
             var resource = await _repository.GetResourceAsync<FindPackageByIdResource>();
             

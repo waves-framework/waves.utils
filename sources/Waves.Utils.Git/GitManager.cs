@@ -68,7 +68,7 @@ namespace Waves.Utils.Git
         /// Stages changes for current repository.
         /// </summary>
         /// <param name="repository"></param>
-        public static void StageChanges(Repository repository)
+        private static void StageChanges(Repository repository)
         {
             var status = repository.RetrieveStatus();
             var filePaths = status.Modified.Select(mods => mods.FilePath).ToList();

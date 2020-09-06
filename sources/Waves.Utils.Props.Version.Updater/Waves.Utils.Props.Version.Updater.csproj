@@ -5,10 +5,15 @@
     <AssemblyName>versionupdater</AssemblyName>
   </PropertyGroup>
 
+  <Import Project="../../props/Waves.Utils.props" />
+
   <ItemGroup>
     <ProjectReference Include="..\Waves.Utils.Project\Waves.Utils.Project.csproj" />
+    <ProjectReference Include="..\Waves.Utils\Waves.Utils.csproj" />
   </ItemGroup>
 
-  <Import Project="../../props/Waves.Utils.props" />
+  <ItemGroup>
+    <PackageReference Include="Waves.Core" Version="2020.2.4" />
+  </ItemGroup>
 
 </Project>
