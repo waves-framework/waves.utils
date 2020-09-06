@@ -15,10 +15,12 @@ namespace Waves.Utils.Nuget.Packer.Services.Interfaces
         /// <param name="outputPath">Output path.</param>
         /// <param name="version">Version.</param>
         /// <param name="properties">Properties.</param>
+        /// <param name="nugetExePath">Path to nuget exe.</param>
         void Pack(
             List<string> fileNames, 
             string outputPath, 
             string version, 
-            string properties);
+            string properties,
+            string nugetExePath);
     }
 }

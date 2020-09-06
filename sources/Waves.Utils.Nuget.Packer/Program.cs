@@ -128,20 +128,30 @@ namespace Waves.Utils.Nuget.Packer
         /// </summary>
         public static void Pack()
         {
-            foreach (var fileName in Templates)
-            {
-                try
-                {
-                    Pack(fileName);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey,
-                        "An error occurred while packing files:\r\n" + e);
+            var templateService = Core.GetInstance<INuspecTemplatesService>();
+            var packerService = Core.GetInstance<IPackerService>();
+            
+            packerService.Pack(templateService.Nuspecs, 
+                Args[OutputDirectoryKey],
+                Args[VersionKey],
+                Args[PropertiesKey],
+                Args[NuGetExePathKey]);
 
-                    Environment.ExitCode = 1;
-                }
-            }
+
+            // foreach (var fileName in Templates)
+            // {
+            //     try
+            //     {
+            //         Pack(fileName);
+            //     }
+            //     catch (Exception e)
+            //     {
+            //         Console.WriteLine("{0} {1}: {2}", ProgramName, ErrorKey,
+            //             "An error occurred while packing files:\r\n" + e);
+            //
+            //         Environment.ExitCode = 1;
+            //     }
+            // }
         }
 
         /// <summary>

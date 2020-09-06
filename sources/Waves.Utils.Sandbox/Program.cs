@@ -12,7 +12,6 @@ namespace Waves.Utils.Sandbox
         
         static void Main(string[] args)
         {
-            
             var tmp = Directory
                 .GetParent(Environment.CurrentDirectory)?
                 .Parent?
@@ -38,33 +37,6 @@ namespace Waves.Utils.Sandbox
             };
 
             Nuget.Packer.Program.Main(args);
-
-            //     var packages = Nuspec.GetDependencyList("/Users/egorkhindikaynen/repos/ambertape/waves/utils/tests/data/nuget/templates/Test.nuspec.template");
-            //     var nugetManager = new NuGetManager();
-            //     
-            //     foreach (var package in packages)
-            //     {
-            //         var version = nugetManager.GetLastPackageMinorVersion(package.Id).Result.Version;
-            //
-            //         var maxVersion = new Version(
-            //             version.Major, 
-            //             version.Minor, 
-            //             version.Build + 1, 
-            //             0);
-            //         
-            //         package.MinVersion = version;
-            //         package.MaxVersion = maxVersion;
-            //     }
-            //     
-            //     Csproj.ReplaceDependencyVersions("/Users/egorkhindikaynen/repos/ambertape/waves/utils/tests/data/sources/Test/Test.csproj", packages);
-            //     
-            //     //GitManager.Reset("/Users/egorkhindikaynen/repos/ambertape/waves/utils/");
-            //     
-            //     GitManager.Commit("/Users/egorkhindikaynen/repos/ambertape/waves/utils/", "Test", "Test", "test");
-            //     GitManager.Push( "/Users/egorkhindikaynen/repos/ambertape/waves/utils/", "origin","khek", "i90CanSee50This99");
-
-
-
         }
     }
 }
