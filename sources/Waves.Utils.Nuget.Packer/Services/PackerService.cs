@@ -83,7 +83,7 @@ namespace Waves.Utils.Nuget.Packer.Services
         /// <param name="version">Version.</param>
         /// <param name="properties">Properties.</param>
         /// <param name="nugetExePath">Path to nuget.exe</param>
-        public void Pack(string fileName, string outputPath, string version, string properties, string nugetExePath)
+        private void Pack(string fileName, string outputPath, string version, string properties, string nugetExePath)
         {
             // creating package
             var command = "pack" + " " +
@@ -144,11 +144,15 @@ namespace Waves.Utils.Nuget.Packer.Services
             }
             else
             {
+                var messageText = "Package was not created:\r\n" + error;
+                
                 OnMessageReceived(this, 
                     new Message("Packing", 
-                        "Package was not created.",
+                        messageText,
                         Name,
                         MessageType.Error));
+                
+                throw new Exception(messageText);
             }
         }
         

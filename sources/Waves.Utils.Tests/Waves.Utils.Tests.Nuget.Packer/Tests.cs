@@ -42,24 +42,29 @@ namespace Waves.Utils.Tests.Nuget.Packer
                 Path.Combine(_workingDirectory, "files", "nuget.exe"),
                 "-WorkingPath",
                 _workingDirectory,
-                "-OutputPath",
+                "-OutputDirectory",
                 Path.Combine(_workingDirectory, "bin", "packages"),
                 "-Properties",
                 "Configuration=Release"
             };
+
+            var result = false;
+            
             try
             {
-                if (Utils.Nuget.Packer.Program.Initialize(args))
-                    Utils.Nuget.Packer.Program.Pack();
+                Utils.Nuget.Packer.Program.Main(args);
 
-                Assert.Pass();
+                result = true;
             }
             catch (Exception)
             {
-                Assert.Fail();
+                result = false;
             }
+            
+            if (result) 
+                Assert.Pass();
+            else 
+                Assert.Fail();
         }
-
-
     }
 }

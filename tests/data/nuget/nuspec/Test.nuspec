@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Test</id>
-    <version>{$NUGETVERSION}</version>
+    <version>0.0.0.0-test</version>
     <authors>Waves</authors>
     <owners>Waves</owners>
     <license type="file">license.md</license>
