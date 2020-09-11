@@ -183,7 +183,8 @@ namespace Waves.Utils.Nuget.Version.Updater
         /// </summary>
         private static void GetNewerVersions()
         {
-            
+            // var manager = new Waves.Utils.Nuget.NuGetManager();
+            // manager.GetLatestPackageVersion()
         }
     }
 }
