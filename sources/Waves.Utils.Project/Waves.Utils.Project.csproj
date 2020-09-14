@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="../../props/Waves.Utils.props" />
+    
+    <ItemGroup>
+      <PackageReference Include="NuGet.Protocol" Version="5.7.0" />
+    </ItemGroup>
+
+</Project>

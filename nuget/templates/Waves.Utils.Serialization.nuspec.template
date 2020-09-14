@@ -11,8 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library of serialization utils.</description>
     <releaseNotes>
-    	The first release of package.
-    	- Simple serialisation / deserialization of objects in binary / xml / json.
+    	Minor changes.
     </releaseNotes>
     <copyright>Copyright (c) 2020 Egor Khindikaynen</copyright>
     <tags>Waves utils serialization</tags>
