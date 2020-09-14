@@ -1,16 +1,6 @@
 ## ![logo](files/logo_very_small.png)  Waves Utils
 
-<a href="http://teamcity.ambertape.ru/viewType.html?buildTypeId=myID&guest=1"> 
-  <img src="http://teamcity.ambertape.ru/app/rest/builds/buildType:(id:WAVES_Utils_Release)/statusIcon"/>
-</a>
-
-<a> 
-  <img src="https://img.shields.io/github/license/waves-framework/waves.utils"/>
-</a>
-
-<a> 
-  <img src="https://img.shields.io/nuget/v/Waves.Utils.Serialization"/>
-</a>
+![logo](http://teamcity.ambertape.ru/app/rest/builds/buildType:(id:WAVES_Utils_Release)/statusIcon) ![logo](https://img.shields.io/github/license/waves-framework/waves.utils) ![logo](https://img.shields.io/nuget/v/Waves.Utils.Serialization)
 
 ### 📚 About Waves
 
