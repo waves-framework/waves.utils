@@ -106,6 +106,8 @@ namespace Waves.Utils.Props.Version.Updater
                 
                 if (!Directory.Exists(Args[PropsDirectoryKey]))
                     throw new DirectoryNotFoundException("Props directory not found.");
+
+                PropsDirectory = Args[PropsDirectoryKey];
                 
                 Core.WriteLog(new Message(
                     "Initializing",
@@ -148,7 +150,7 @@ namespace Waves.Utils.Props.Version.Updater
             catch (Exception e)
             {
                 Core.WriteLog(new Message(
-                    "Initializing",
+                    "Updating versions",
                     "Error occured while updating versions:\r\n" + e,
                     Name,
                     MessageType.Fatal));
