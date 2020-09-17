@@ -5,6 +5,21 @@
     <AssemblyName>packer</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Waves.Utils.Project\Waves.Utils.Project.csproj" />
+    <ProjectReference Include="..\Waves.Utils\Waves.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Waves.Core" Version="2020.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Import Project="../../props/Waves.Utils.props" />
 
 </Project>

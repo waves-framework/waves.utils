@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../props/Test.props" />
+  <ItemGroup>
+    <PackageReference Include="jQuery" Version="3.5.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3.0" />
+  </ItemGroup>
+</Project>
