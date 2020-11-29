@@ -18,12 +18,7 @@ namespace Waves.Utils.Serialization
         public static void WriteToFile<T>(string filePath, T objectToWrite, bool append = false)
         {
             var json = JsonConvert.SerializeObject(
-                objectToWrite,
-                new JsonSerializerSettings()
-                {
-                    TypeNameHandling = TypeNameHandling.Auto,
-                    Formatting = Formatting.Indented,
-                });
+                objectToWrite, Formatting.Indented);
 
             File.WriteAllText(filePath, json);
         }
