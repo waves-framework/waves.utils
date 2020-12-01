@@ -16,7 +16,7 @@
 
 ### ⌨️ Usage basics
 
-##### Waves.Utils.Serialization
+**Waves.Utils.Serialization**
 
 Simple serialization of objects in binary, XML and JSON formats for **Waves.Core**. 
 
