@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace Waves.Utils
 {
+    /// <summary>
+    /// Arguments helpers.
+    /// </summary>
     public static class Arguments
     {
         /// <summary>

@@ -14,6 +14,30 @@
 
 
 
+### ⌨️ Usage basics
+
+##### Waves.Utils.Serialization
+
+Simple serialization of objects in binary, XML and JSON formats for **Waves.Core**. 
+
+**Waves.Utils.Props.Version.Updater**
+
+Utility for updating version in *.props* files. Usage:
+
+```bash
+versionupdater.exe -PropsDirectory PATH_TO_PROPS_DIRECTORY -Version X.X.X.X
+```
+
+**Waves.Utils.Nuget.Packer**
+
+Utility for packing nuget-packages from nuspec-files. Usage:
+
+```bash
+packer.exe -NuGetExePath PATH_TO_NuGet.exe -WorkingPath WORKING_DIRECTORY_PATH -OutputDirectory OUTPUT_DIRECTORY_PATH -Version X.X.X.X -Properties Configuration=Release
+```
+
+
+
 ### 📋 Licence
 
 Waves.Core is licenced under the [MIT licence](https://github.com/ambertape/waves.core/blob/master/license.md).

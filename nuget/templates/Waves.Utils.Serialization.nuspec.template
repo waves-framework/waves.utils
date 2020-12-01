@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library of serialization utils.</description>
     <releaseNotes>
-    	Minor changes.
+    	- Updated JSON serialization.
     </releaseNotes>
     <copyright>Copyright (c) 2020 Egor Khindikaynen</copyright>
     <tags>Waves utils serialization</tags>
