@@ -3,7 +3,7 @@
     <Import Project="../../props/Waves.Utils.props" />
 
     <ItemGroup>
-      <PackageReference Include="NuGet.Protocol" Version="5.7.0" />
+      <PackageReference Include="NuGet.Protocol" Version="5.8.0" />
     </ItemGroup>
 
 </Project>

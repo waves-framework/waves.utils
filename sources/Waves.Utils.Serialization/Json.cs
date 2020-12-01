@@ -14,11 +14,11 @@ namespace Waves.Utils.Serialization
         /// <typeparam name="T">Type</typeparam>
         /// <param name="filePath">Path.</param>
         /// <param name="objectToWrite">Object.</param>
-        /// <param name="append">Append.</param>
-        public static void WriteToFile<T>(string filePath, T objectToWrite, bool append = false)
+        public static void WriteToFile<T>(string filePath, T objectToWrite)
         {
             var json = JsonConvert.SerializeObject(
-                objectToWrite, Formatting.Indented);
+                objectToWrite, 
+                Formatting.Indented);
 
             File.WriteAllText(filePath, json);
         }
@@ -33,7 +33,7 @@ namespace Waves.Utils.Serialization
         {
             var json = File.ReadAllText(filePath);
 
-            return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings()
+            return JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto,
                 Formatting = Formatting.Indented
