@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Waves.Utils.Serialization</id>
+    <version>{$NUGETVERSION}</version>
+    <authors>Waves</authors>
+    <owners>Waves</owners>
+    <license type="file">license.md</license>
+    <projectUrl>https://github.com/ambertape/waves.utils</projectUrl>
+    <icon>files\logo_c_128.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library of serialization utils.</description>
+    <releaseNotes>
+    	- Updated repository.
+    </releaseNotes>
+    <copyright>Copyright (c) 2021 Egor Khindikaynen</copyright>
+    <tags>Waves utils serialization</tags>
+    <dependencies>
+      <group>
+        <dependency id="Newtonsoft.Json" version="12.0.3" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+  	<file src="..\..\license.md" target="" />
+    <file src="..\..\files\images\logo_c_128.png" target="files\" />
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.dll" target="lib\netcoreapp3.1"/>
+    <file src="..\..\bin\AnyCPU\release\netcoreapp3.1\Waves.Utils.Serialization.xml" target="lib\netcoreapp3.1"/>
+  </files>     
+</package>

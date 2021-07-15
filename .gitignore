@@ -2,4 +2,12 @@
 *\obj
 *\.idea
 *\.vs
+*\_site
+
+*\log.txt
+*.user
+
+build/nuget/nuspec/**
+artifacts/
 packages/
+temp/
