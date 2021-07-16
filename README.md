@@ -8,7 +8,7 @@
 
 ### 📒 About Waves.Utils
 
-**Waves.Utils** is set of framework tools and.
+**Waves.Utils** is set of framework tools.
 
 ### 📋 Licence
 
