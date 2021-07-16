@@ -21,6 +21,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
-      run: dotnet restore $env.solutionsPath
+      run: dotnet restore ${{ env.solutionsPath }}
     - name: Build
-      run: dotnet build --no-restore $env.solutionsPath
+      run: dotnet build --no-restore ${{ env.solutionsPath }}
