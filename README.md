@@ -1,4 +1,4 @@
-## ![logo](files/images/logo_64.png)  Waves Utils
+## ![logo](files/images/logo_64.png)  Waves Utils (deprecated)
 
 ![logo](https://img.shields.io/github/license/waves-framework/waves.utils) ![logo](https://img.shields.io/nuget/v/Waves.Utils.Serialization)
 
